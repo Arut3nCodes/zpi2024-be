@@ -1,0 +1,2 @@
+# zpi2024-be
+Backend aplikacji webowej realizującej stronę dla abstrakcyjnej sieci fryzjerskiej stworzonej na ZPI
