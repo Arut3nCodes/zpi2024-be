@@ -12,10 +12,11 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @Entity(name = "Pracownicy")
+@Table(name = "Pracownicy")
 public class EmployeeModel {
     //todo: Dodać odpowiednie liczności, unikalność oraz opcjonalność kolumn
     @Id
-    @Column(name = "PracownikID")
+    @Column(name = "PracownikID", unique = true)
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Integer employeeID;
     @Column(name = "ImieP", length = 50)

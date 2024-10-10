@@ -23,7 +23,7 @@ public class CustomerModel {
     @Column(name="NrTelK")
     @Size(min=7, max=16, message="Surname must be in between 7 and 16")
     private String customerDialNumber;
-    //todo Uzupelnic definicje kolumn :)
+    //todo Uzupelnic
     @Column(name="HasloK")
     private String encryptedCustomerPassword;
 

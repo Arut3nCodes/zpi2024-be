@@ -12,10 +12,10 @@ import java.sql.Time;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Table(name = "GodzinyOtwarcia")
+@Entity(name = "GodzinyOtwarcia")
 public class OpeningHoursModel {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "GodzID")
     private Integer openingHoursID;
     @Column(name = "DzienTygodnia")
@@ -26,5 +26,5 @@ public class OpeningHoursModel {
     private Time closingHour;
     @ManyToOne()
     @JoinColumn(name = "salonID")
-    private Integer salonID;
+    private SalonModel salonID;
 }
