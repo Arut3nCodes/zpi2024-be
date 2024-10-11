@@ -21,8 +21,7 @@ public class RatingModel {
     @ManyToOne
     @JoinColumn(name="PracownikID")
     private EmployeeModel employeeModel;
-//    @ManyToOne
-//    JoinColumn("WizytaID")
-//    private VisitModel  visitModel;
-
+    @ManyToOne
+    @JoinColumn(name="WizytaID")
+    private VisitModel visitModel;
 }

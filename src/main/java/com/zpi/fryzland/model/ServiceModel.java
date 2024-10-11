@@ -22,7 +22,7 @@ public class ServiceModel {
     private float servicePrice;
     @Column(name="OpisU")
     private String serviceDescription;
-//    @ManyToOne
-//    @JoinColumn(name="KategoriaU")
-//    private ServiceCategoryModel serviceCategoryModel;
+    @ManyToOne
+    @JoinColumn(name="KategoriaU")
+    private ServiceCategoryModel serviceCategoryModel;
 }

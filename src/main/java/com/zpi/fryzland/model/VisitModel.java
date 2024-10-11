@@ -23,13 +23,10 @@ public class VisitModel {
     private Time visitStartDate;
     @ManyToOne
     @JoinColumn(name="PracownikID")
-    private EmployeeModel employeeModel;
+    private AssigmentToSalonModel assigmentModel;
     @ManyToOne
     @JoinColumn(name="KlientID")
     private CustomerModel customerModel;
-    @ManyToOne
-    @JoinColumn(name="SalonID")
-    private SalonModel salonModel;
 
 
 }
