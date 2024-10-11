@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,14 +15,15 @@ public class RatingModel {
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="OcenyID")
     private Integer ratingColumn;
-    @Column(name="WartoscOceny")
+    @Range(min = 1, max = 5)
+    @Column(name="WartoscOceny", nullable = false)
     private float ratingValue;
-    @Column(name="Opinia")
+    @Column(name="Opinia", length = 400)
     private String ratingOpinion;
     @ManyToOne
-    @JoinColumn(name="PracownikID")
+    @JoinColumn(name="PracownikID", nullable = false, unique = true)
     private EmployeeModel employeeModel;
     @ManyToOne
-    @JoinColumn(name="WizytaID")
+    @JoinColumn(name="WizytaID", nullable = false, unique = true)
     private VisitModel visitModel;
 }

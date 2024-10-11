@@ -1,6 +1,7 @@
 package com.zpi.fryzland.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,8 @@ public class AssigmentToSalonModel {
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="PrzydzialID")
     private Integer assigmentID;
-    @Column(name="DataPrzydzialu")
+    @FutureOrPresent
+    @Column(name="DataPrzydzialu", nullable = false)
     private Date assigmentDate;
     @ManyToOne
     @JoinColumn(name="SalonID")

@@ -14,8 +14,8 @@ public class ServiceCategoryModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "KategoriaID")
     private Integer serviceCategoryId;
-    @Column(name = "NazwaKat")
+    @Column(name = "NazwaKat", nullable = false, unique = true, length = 50)
     private String categoryName;
-    @Column(name = "OpisKat")
+    @Column(name = "OpisKat", length = 200)
     private String categoryDescription;
 }

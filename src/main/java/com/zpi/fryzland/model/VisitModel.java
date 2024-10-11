@@ -1,6 +1,7 @@
 package com.zpi.fryzland.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,9 +18,11 @@ public class VisitModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="WizytaID")
     private Integer visitID;
-    @Column(name="DataW")
+    @FutureOrPresent
+    @Column(name="DataW", nullable = false)
     private Date visitDate;
-    @Column(name="GodzinaRozp")
+    @FutureOrPresent
+    @Column(name="GodzinaRozp", nullable = false)
     private Time visitStartDate;
     @ManyToOne
     @JoinColumn(name="PracownikID")

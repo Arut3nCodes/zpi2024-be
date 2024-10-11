@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Value;
+import org.hibernate.validator.constraints.Range;
 
 import java.sql.Time;
 
@@ -18,13 +19,14 @@ public class OpeningHoursModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "GodzID")
     private Integer openingHoursID;
-    @Column(name = "DzienTygodnia")
+    @Range(min = 1, max = 7)
+    @Column(name = "DzienTygodnia", nullable = false)
     private Integer weekday;
-    @Column(name = "GodzOtw")
+    @Column(name = "GodzOtw", nullable = false)
     private Time openingHour;
-    @Column(name = "GodzZamk")
+    @Column(name = "GodzZamk", nullable = false)
     private Time closingHour;
     @ManyToOne()
-    @JoinColumn(name = "salonID")
+    @JoinColumn(name = "salonID", unique = true, nullable = false)
     private SalonModel salonID;
 }

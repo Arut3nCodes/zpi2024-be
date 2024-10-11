@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Range;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,15 +15,17 @@ public class ServiceModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "UsługaID")
     private Integer serviceID;
-    @Column(name = "NazwaU")
+    @Column(name = "NazwaU", nullable = false, length = 50)
     private String serviceName;
-    @Column(name="CzasU")
+    @Range(min = 1, max = 4)
+    @Column(name="CzasU", nullable = false)
     private Integer serviceSpan;
-    @Column(name="CenaU")
-    private float servicePrice;
-    @Column(name="OpisU")
+    @Range(min = 1, max = 10000)
+    @Column(name="CenaU", nullable = false)
+    private Float servicePrice;
+    @Column(name="OpisU", length = 200)
     private String serviceDescription;
     @ManyToOne
-    @JoinColumn(name="KategoriaU")
+    @JoinColumn(name="KategoriaU", unique = true)
     private ServiceCategoryModel serviceCategoryModel;
 }
