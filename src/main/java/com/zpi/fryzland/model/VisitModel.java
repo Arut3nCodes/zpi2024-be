@@ -30,6 +30,4 @@ public class VisitModel {
     @ManyToOne
     @JoinColumn(name="KlientID")
     private CustomerModel customerModel;
-
-
 }

@@ -1,21 +1,21 @@
 package com.zpi.fryzland.model;
 
+import com.zpi.fryzland.validators.BirthdayDate;
+import com.zpi.fryzland.validators.EmploymentDate;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
-
-import java.util.Date;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity(name = "Pracownicy")
+@EmploymentDate(employmentDateField = "employeeEmploymentDate", birthdayDateField = "employeeBirthdayDate")
 public class EmployeeModel {
-    //todo: Dodać odpowiednie liczności, unikalność oraz opcjonalność kolumn
     @Id
     @Column(name = "PracownikID")
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -33,10 +33,10 @@ public class EmployeeModel {
     @Pattern(regexp="^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
     private String employeeEmail;
     @Column(name = "DataUrP", nullable = false)
-
-    private Date employeeBirthdayDate;
+    @BirthdayDate
+    private LocalDate employeeBirthdayDate;
     @Column(name = "DataZatrP", nullable = false)
-    private Date employeeEmploymentDate;
+    private LocalDate employeeEmploymentDate;
     @Range(min = 1)
     @Column(name = "PensjaP", nullable = false)
     private Float employeeMonthlyPay;
