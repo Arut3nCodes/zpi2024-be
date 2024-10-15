@@ -32,6 +32,4 @@ public class CustomerModel {
     @ManyToOne
     @JoinColumn(name="PrefKatU")
     private ServiceCategoryModel serviceCategoryModel;
-
-
 }
