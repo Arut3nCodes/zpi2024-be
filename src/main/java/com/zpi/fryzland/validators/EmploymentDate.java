@@ -19,6 +19,4 @@ public @interface EmploymentDate {
 
     String employmentDateField();
     String birthdayDateField();
-
-
 }
