@@ -17,7 +17,7 @@ public class AuthController extends BaseController{
     public ResponseEntity<String> loginCustomer(){
         return null;
     }
-    @PostMapping("customer/register")
+    @PostMapping("/customer/register")
     public ResponseEntity<String> registerCustomer(){
         return null;
     }
