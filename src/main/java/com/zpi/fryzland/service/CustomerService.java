@@ -17,7 +17,7 @@ public class CustomerService {
     }
 
     public Optional<CustomerModel> findByEmail(String customerEmail){
-        return customerRepository.findByEmail(customerEmail);
+        return customerRepository.findByCustomerEmail(customerEmail);
     }
 
     public CustomerModel addCustomer(CustomerModel customerModel){
