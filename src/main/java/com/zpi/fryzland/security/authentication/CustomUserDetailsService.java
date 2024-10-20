@@ -27,18 +27,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsernameWithRole(String username, String role) throws UsernameNotFoundException, UnsupportedOperationException {
-        if(role.equals("employee")){
+        if(role.equals("USER_EMPLOYEE")){
             throw new UnsupportedOperationException("Unsupported operation");
         }
         else{
             CustomerModel customerModel = customerRepository.findByCustomerEmail(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("Uzytkownik nie został odnaleziony w BD"));
-
+                    .orElseThrow(() -> new UsernameNotFoundException("Użytkownik nie został odnaleziony w BD"));
+            System.out.println("Happy happy happy");
+            System.out.println(customerModel);
             return new User(username, customerModel.getEncryptedCustomerPassword(), new ArrayList<>(Collections.singleton(new SimpleGrantedAuthority(role))));
         }
     }
-
-
-
-
 }

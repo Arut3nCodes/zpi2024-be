@@ -23,5 +23,4 @@ public class CustomerService {
     public CustomerModel addCustomer(CustomerModel customerModel){
         return customerRepository.save(customerModel);
     }
-
 }

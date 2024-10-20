@@ -46,7 +46,7 @@ public class EmployeeModel {
     @Column(name = "UlicaP", nullable = false, length = 150)
     private String employeeStreet;
     @Column(name = "NrBudynkuP", nullable = false, length = 30)
-    private String employeeBuldingNumber;
+    private String employeeBuildingNumber;
     @Column(name = "NrMieszkaniaP", nullable = false, length = 30)
     private String employeeApartmentNumber;
     @Pattern(regexp = "^[1-9]{2}-[1-9]{3}$")
