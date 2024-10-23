@@ -34,9 +34,10 @@ public class AuthController extends BaseController{
     @PostMapping("/employee/login")
     public ResponseEntity<TokenDTO> loginEmployee(@RequestBody LoginDTO loginDTO){
         try{
-            String token = authService.login(new LoginDTO(),"USER_EMPLOYEE");
+            String token = authService.login(loginDTO,"USER_EMPLOYEE");
             return ResponseEntity.ok(new TokenDTO(token));
         }catch(Exception e){
+            e.printStackTrace();
             return ResponseEntity
                     .badRequest()
                     .build();
