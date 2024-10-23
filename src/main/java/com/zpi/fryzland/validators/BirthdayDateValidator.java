@@ -18,7 +18,7 @@ public class BirthdayDateValidator implements ConstraintValidator<BirthdayDate, 
 
             todayDate = todayDate.minusYears(18);
 
-            if(todayDate.isBefore(birthdayDate) || todayDate.isEqual(birthdayDate)){
+            if(todayDate.isAfter(birthdayDate) || todayDate.isEqual(birthdayDate)){
                 return true;
             }
             else return false;

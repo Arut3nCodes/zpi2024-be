@@ -7,6 +7,7 @@ import com.zpi.fryzland.dto.TokenDTO;
 import com.zpi.fryzland.mapper.CustomerMapper;
 import com.zpi.fryzland.mapper.EmployeeMapper;
 import com.zpi.fryzland.model.CustomerModel;
+import com.zpi.fryzland.model.EmployeeModel;
 import com.zpi.fryzland.security.authentication.AuthService;
 import com.zpi.fryzland.service.CustomerService;
 import com.zpi.fryzland.service.EmployeeService;
@@ -49,8 +50,8 @@ public class AuthController extends BaseController{
                         .badRequest()
                         .build();
             }
-            Optional<CustomerModel> customerModelOptional = this.customerService.findByEmail(employeeDTO.getEmployeeEmail());
-            if(customerModelOptional.isEmpty()){
+            Optional<EmployeeModel> employeeModelOptional = this.employeeService.findByEmployeeEmail(employeeDTO.getEmployeeEmail());
+            if(employeeModelOptional.isEmpty()){
                 employeeDTO.setEncryptedEmployeePassword(passwordEncoder.encode(employeeDTO.getEncryptedEmployeePassword()));
                 this.employeeService.addEmployee(EmployeeMapper.toModel(employeeDTO));
                 return ResponseEntity

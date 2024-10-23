@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 @Entity(name = "Pracownicy")
-@EmploymentDate(employmentDateField = "employeeEmploymentDate", birthdayDateField = "employeeBirthdayDate")
 public class EmployeeModel {
     @Id
     @Column(name = "PracownikID")
@@ -49,7 +48,7 @@ public class EmployeeModel {
     private String employeeBuildingNumber;
     @Column(name = "NrMieszkaniaP", nullable = false, length = 30)
     private String employeeApartmentNumber;
-    @Pattern(regexp = "^[1-9]{2}-[1-9]{3}$")
+    @Pattern(regexp = "^[0-9]{2}-[0-9]{3}$")
     @Column(name = "KodPocztowyP", nullable = false)
     private String employeePostalCode;
 }

@@ -26,11 +26,11 @@ public class EmploymentDateValidator implements ConstraintValidator<EmploymentDa
                 birthdayDateField.setAccessible(true);
 
                 LocalDate employmentDate = (LocalDate) employmentDateField.get(value);
-                LocalDate birthdayDate = (LocalDate) employmentDateField.get(value);
+                LocalDate birthdayDate = (LocalDate) birthdayDateField.get(value);
 
                 if(employmentDate == null || birthdayDate == null) return true;
                 else {
-                    return (employmentDate.minusYears(18).isBefore(LocalDate.now()) && employmentDate.isAfter(birthdayDate));
+                    return (employmentDate.minusYears(18).isAfter(LocalDate.now()) && employmentDate.isAfter(birthdayDate));
                 }
             } catch (Exception e){
             e.printStackTrace();
