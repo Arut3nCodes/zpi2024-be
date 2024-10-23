@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 @AllArgsConstructor
 public class AuthService {
-
     private AuthenticationManager authenticationManager;
     private CustomUserDetailsService userDetailsService;
     private JwtTokenGenerator jwtTokenGenerator;
@@ -26,11 +25,9 @@ public class AuthService {
                 userDetails.getAuthorities());
 
         Authentication authentication = authenticationManager.authenticate(authToken);
-        System.out.println("hello world1");
         SecurityContextHolder.getContext().setAuthentication(
                 authentication
                 );
-        System.out.println("hello world2");
         return jwtTokenGenerator.generateToken(authentication);
     }
 }

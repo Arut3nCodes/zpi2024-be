@@ -1,6 +1,9 @@
 package com.zpi.fryzland.security.authentication;
 import com.zpi.fryzland.model.CustomerModel;
+import com.zpi.fryzland.model.EmployeeModel;
 import com.zpi.fryzland.repository.CustomerRepository;
+import com.zpi.fryzland.repository.EmployeeRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.parameters.P;
@@ -14,12 +17,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
-    @Autowired
     private CustomerRepository customerRepository;
-
-    //@Autowired
-    //private EmployeeRepository employeeRepository;
+    private EmployeeRepository employeeRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -28,13 +29,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public UserDetails loadUserByUsernameWithRole(String username, String role) throws UsernameNotFoundException, UnsupportedOperationException {
         if(role.equals("USER_EMPLOYEE")){
-            throw new UnsupportedOperationException("Unsupported operation");
+            EmployeeModel employeeModel = employeeRepository.findByEmployeeEmail(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("Pracownik nie został odnaleziony w BD"));
+            return new User(username, employeeModel.getEncryptedEmployeePassword(), new ArrayList<>(Collections.singleton(new SimpleGrantedAuthority(role))));
         }
         else{
             CustomerModel customerModel = customerRepository.findByCustomerEmail(username)
-                    .orElseThrow(() -> new UsernameNotFoundException("Użytkownik nie został odnaleziony w BD"));
-            System.out.println("Happy happy happy");
-            System.out.println(customerModel);
+                    .orElseThrow(() -> new UsernameNotFoundException("Klient nie został odnaleziony w BD"));
             return new User(username, customerModel.getEncryptedCustomerPassword(), new ArrayList<>(Collections.singleton(new SimpleGrantedAuthority(role))));
         }
     }
