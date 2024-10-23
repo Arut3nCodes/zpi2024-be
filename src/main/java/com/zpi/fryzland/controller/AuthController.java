@@ -20,6 +20,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/api/auth")
 public class AuthController extends BaseController{
 
     //todo: zmienić na 201 przy tworzeniu
