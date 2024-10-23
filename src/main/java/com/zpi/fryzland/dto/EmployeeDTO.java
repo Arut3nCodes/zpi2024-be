@@ -23,4 +23,7 @@ public class EmployeeDTO {
     private String employeeBuildingNumber;
     private String employeeApartmentNumber;
     private String employeePostalCode;
+
+    public EmployeeDTO(LocalDate localDate, LocalDate localDate1) {
+    }
 }
