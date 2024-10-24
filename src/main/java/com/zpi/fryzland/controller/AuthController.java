@@ -25,9 +25,10 @@ import java.util.Optional;
 public class AuthController extends BaseController{
 
     //todo: zmienić na 201 przy tworzeniu
-
     private final CustomerService customerService;
     private final EmployeeService employeeService;
+    private final EmployeeMapper employeeMapper;
+    private final CustomerMapper customerMapper;
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
 
@@ -54,7 +55,7 @@ public class AuthController extends BaseController{
             Optional<EmployeeModel> employeeModelOptional = this.employeeService.findByEmployeeEmail(employeeDTO.getEmployeeEmail());
             if(employeeModelOptional.isEmpty()){
                 employeeDTO.setEncryptedEmployeePassword(passwordEncoder.encode(employeeDTO.getEncryptedEmployeePassword()));
-                this.employeeService.addEmployee(EmployeeMapper.toModel(employeeDTO));
+                this.employeeService.addEmployee(employeeMapper.toModel(employeeDTO));
                 return ResponseEntity
                         .ok()
                         .build();
@@ -94,7 +95,7 @@ public class AuthController extends BaseController{
             Optional<CustomerModel> customerModelOptional = this.customerService.findByEmail(customerDTO.getCustomerEmail());
             if(customerModelOptional.isEmpty()){
                 customerDTO.setEncryptedCustomerPassword(passwordEncoder.encode(customerDTO.getEncryptedCustomerPassword()));
-                this.customerService.addCustomer(CustomerMapper.toModel(customerDTO));
+                this.customerService.addCustomer(customerMapper.toModel(customerDTO));
                 return ResponseEntity
                         .ok()
                         .build();

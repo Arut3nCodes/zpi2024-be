@@ -4,43 +4,46 @@ import com.zpi.fryzland.dto.CustomerDTO;
 import com.zpi.fryzland.dto.EmployeeDTO;
 import com.zpi.fryzland.model.CustomerModel;
 import com.zpi.fryzland.model.EmployeeModel;
+import org.springframework.stereotype.Component;
 
-public class EmployeeMapper {
-    public static EmployeeDTO toDTO(EmployeeModel employeeModel){
+@Component
+public class EmployeeMapper implements Mapper<EmployeeModel, EmployeeDTO>{
+    @Override
+    public EmployeeDTO toDTO(EmployeeModel model){
         return new EmployeeDTO(
-                employeeModel.getEmployeeID(),
-                employeeModel.getEmployeeName(),
-                employeeModel.getEmployeeSurname(),
-                employeeModel.getEmployeeDialNumber(),
-                employeeModel.getEncryptedEmployeePassword(),
-                employeeModel.getEmployeeEmail(),
-                employeeModel.getEmployeeBirthdayDate(),
-                employeeModel.getEmployeeEmploymentDate(),
-                employeeModel.getEmployeeMonthlyPay(),
-                employeeModel.getEmployeeCity(),
-                employeeModel.getEmployeeStreet(),
-                employeeModel.getEmployeeBuildingNumber(),
-                employeeModel.getEmployeeApartmentNumber(),
-                employeeModel.getEmployeePostalCode()
+                model.getEmployeeID(),
+                model.getEmployeeName(),
+                model.getEmployeeSurname(),
+                model.getEmployeeDialNumber(),
+                model.getEncryptedEmployeePassword(),
+                model.getEmployeeEmail(),
+                model.getEmployeeBirthdayDate(),
+                model.getEmployeeEmploymentDate(),
+                model.getEmployeeMonthlyPay(),
+                model.getEmployeeCity(),
+                model.getEmployeeStreet(),
+                model.getEmployeeBuildingNumber(),
+                model.getEmployeeApartmentNumber(),
+                model.getEmployeePostalCode()
         );
     }
-
-    public static EmployeeModel toModel(EmployeeDTO employeeDTO){
+    @Override
+    public EmployeeModel toModel(EmployeeDTO dto){
         return new EmployeeModel(
                 null,
-                employeeDTO.getEmployeeName(),
-                employeeDTO.getEmployeeSurname(),
-                employeeDTO.getEmployeeDialNumber(),
-                employeeDTO.getEncryptedEmployeePassword(),
-                employeeDTO.getEmployeeEmail(),
-                employeeDTO.getEmployeeBirthdayDate(),
-                employeeDTO.getEmployeeEmploymentDate(),
-                employeeDTO.getEmployeeMonthlyPay(),
-                employeeDTO.getEmployeeCity(),
-                employeeDTO.getEmployeeStreet(),
-                employeeDTO.getEmployeeBuildingNumber(),
-                employeeDTO.getEmployeeApartmentNumber(),
-                employeeDTO.getEmployeePostalCode()
+                dto.getEmployeeName(),
+                dto.getEmployeeSurname(),
+                dto.getEmployeeDialNumber(),
+                dto.getEncryptedEmployeePassword(),
+                dto.getEmployeeEmail(),
+                dto.getEmployeeBirthdayDate(),
+                dto.getEmployeeEmploymentDate(),
+                dto.getEmployeeMonthlyPay(),
+                dto.getEmployeeCity(),
+                dto.getEmployeeStreet(),
+                dto.getEmployeeBuildingNumber(),
+                dto.getEmployeeApartmentNumber(),
+                dto.getEmployeePostalCode()
         );
     }
 }
