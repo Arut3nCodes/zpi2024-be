@@ -19,4 +19,12 @@ public class EmployeeService {
     public EmployeeModel addEmployee(EmployeeModel employeeModel){
         return employeeRepository.save(employeeModel);
     }
+
+    public void removeEmployeeById(int id){
+        employeeRepository.deleteById(id);
+    }
+
+    public void removeEmployee(EmployeeModel employeeModel){
+        employeeRepository.delete(employeeModel);
+    }
 }

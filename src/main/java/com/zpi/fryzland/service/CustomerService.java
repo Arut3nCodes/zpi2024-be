@@ -23,4 +23,16 @@ public class CustomerService {
     public CustomerModel addCustomer(CustomerModel customerModel){
         return customerRepository.save(customerModel);
     }
+
+    public void removeCustomerById(int id){
+        customerRepository.deleteById(id);
+    }
+
+    public void removeCustomer(CustomerModel customerModel){
+        customerRepository.delete(customerModel);
+    }
+
+    public void editCustomer(int id, CustomerModel customerModel){
+        throw new UnsupportedOperationException();
+    }
 }

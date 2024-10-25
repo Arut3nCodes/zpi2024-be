@@ -27,7 +27,7 @@ public class SalonModel {
     @Column(name = "UlicaS", nullable = false, length = 150)
     private String salonStreet;
     @Column(name = "NrBudynkuS", nullable = false, length = 30)
-    private String salonBuldingNumber;
+    private String salonBuildingNumber;
     @Pattern(regexp = "^[1-9]{2}-[1-9]{3}$")
     @Column(name = "KodPocztowyS", nullable = false)
     private String salonPostalCode;
