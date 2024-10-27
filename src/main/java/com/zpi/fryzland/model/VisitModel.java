@@ -26,7 +26,7 @@ public class VisitModel {
     private Time visitStartDate;
     @ManyToOne
     @JoinColumn(name="PracownikID")
-    private AssigmentToSalonModel assigmentModel;
+    private AssignmentToSalonModel assigmentModel;
     @ManyToOne
     @JoinColumn(name="KlientID")
     private CustomerModel customerModel;
