@@ -12,14 +12,14 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @Entity(name="PrzydzialDoSalonu")
-public class AssigmentToSalonModel {
+public class AssignmentToSalonModel {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name="PrzydzialID")
-    private Integer assigmentID;
+    private Integer assignmentID;
     @FutureOrPresent
     @Column(name="DataPrzydzialu", nullable = false)
-    private Date assigmentDate;
+    private Date assignmentDate;
     @ManyToOne
     @JoinColumn(name="SalonID")
     private SalonModel salonModel;
