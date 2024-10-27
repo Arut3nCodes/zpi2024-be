@@ -11,6 +11,6 @@ package com.zpi.fryzland.mapper;
 
 public interface Mapper<T, U> {
 
-    T toModel(U dto);
+    T toModel(U dto, boolean withId);
     U toDTO(T model);
 }
