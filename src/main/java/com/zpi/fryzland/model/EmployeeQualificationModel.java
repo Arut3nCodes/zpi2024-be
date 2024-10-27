@@ -21,5 +21,4 @@ public class EmployeeQualificationModel {
     @ManyToOne
     @JoinColumn(name = "PracownikID")
     private EmployeeModel employeeID;
-
 }

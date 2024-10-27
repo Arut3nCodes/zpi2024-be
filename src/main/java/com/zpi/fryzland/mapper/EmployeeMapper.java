@@ -28,9 +28,9 @@ public class EmployeeMapper implements Mapper<EmployeeModel, EmployeeDTO>{
         );
     }
     @Override
-    public EmployeeModel toModel(EmployeeDTO dto){
+    public EmployeeModel toModel(EmployeeDTO dto, boolean withId){
         return new EmployeeModel(
-                null,
+                withId ? dto.getEmployeeID() : null,
                 dto.getEmployeeName(),
                 dto.getEmployeeSurname(),
                 dto.getEmployeeDialNumber(),
