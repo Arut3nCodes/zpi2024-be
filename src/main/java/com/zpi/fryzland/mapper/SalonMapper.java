@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 public class SalonMapper implements Mapper<SalonModel, SalonDTO>{
 
     @Override
-    public SalonModel toModel(SalonDTO dto) {
+    public SalonModel toModel(SalonDTO dto, boolean withId) {
         return new SalonModel(
-                null,
+                withId ? dto.getSalonID() : null,
                 dto.getSalonName(),
                 dto.getSalonDialNumber(),
                 dto.getSalonCity(),

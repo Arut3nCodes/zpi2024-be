@@ -49,7 +49,7 @@ public class SalonController{
     @PostMapping("")
     public ResponseEntity<SalonDTO> addSalon(@RequestBody SalonDTO salonDTO){
         try{
-            SalonModel salonModel = mapper.toModel(salonDTO);
+            SalonModel salonModel = mapper.toModel(salonDTO, false);
             salonModel = service.addModel(salonModel);
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body(mapper.toDTO(salonModel));

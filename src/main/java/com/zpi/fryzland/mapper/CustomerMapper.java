@@ -4,14 +4,15 @@ import com.zpi.fryzland.dto.CustomerDTO;
 import com.zpi.fryzland.model.CustomerModel;
 import org.springframework.stereotype.Component;
 
-//todo: Zrobić coś z tym nullem na pozycji ServiceCategoryModel w toModel()
+//todo: Zrobić coś z tym nullem na pozycji ServiceCategoryModel w toModel() w customerModel
 @Component
 public class CustomerMapper implements Mapper<CustomerModel, CustomerDTO>{
 
+    //todo: Po ukończeniu serviceCategoryService uzupełnić customerModel
     @Override
-    public CustomerModel toModel(CustomerDTO dto){
+    public CustomerModel toModel(CustomerDTO dto, boolean withId){
         return new CustomerModel(
-                null,
+                withId ? dto.getCustomerID() : null,
                 dto.getCustomerName(),
                 dto.getCustomerSurname(),
                 dto.getCustomerDialNumber(),

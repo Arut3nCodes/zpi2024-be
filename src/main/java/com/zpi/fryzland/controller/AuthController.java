@@ -52,10 +52,10 @@ public class AuthController extends BaseController{
                         .badRequest()
                         .build();
             }
-            Optional<EmployeeModel> employeeModelOptional = this.employeeService.findByEmployeeEmail(employeeDTO.getEmployeeEmail());
+            Optional<EmployeeModel> employeeModelOptional = this.employeeService.getByEmployeeEmail(employeeDTO.getEmployeeEmail());
             if(employeeModelOptional.isEmpty()){
                 employeeDTO.setEncryptedEmployeePassword(passwordEncoder.encode(employeeDTO.getEncryptedEmployeePassword()));
-                this.employeeService.addEmployee(employeeMapper.toModel(employeeDTO));
+                this.employeeService.addEmployee(employeeMapper.toModel(employeeDTO, false));
                 return ResponseEntity
                         .ok()
                         .build();
@@ -95,7 +95,7 @@ public class AuthController extends BaseController{
             Optional<CustomerModel> customerModelOptional = this.customerService.findByEmail(customerDTO.getCustomerEmail());
             if(customerModelOptional.isEmpty()){
                 customerDTO.setEncryptedCustomerPassword(passwordEncoder.encode(customerDTO.getEncryptedCustomerPassword()));
-                this.customerService.addCustomer(customerMapper.toModel(customerDTO));
+                this.customerService.addCustomer(customerMapper.toModel(customerDTO, false));
                 return ResponseEntity
                         .ok()
                         .build();
