@@ -43,12 +43,12 @@ public class JwtTokenGenerator {
                 .getSubject();
     }
 
-    public List<String> getRoles(String token){
+    public String getRoles(String token){
         return Jwts.parser()
                 .verifyWith((SecretKey) key())
                 .build()
                 .parseSignedClaims(token)
-                .getPayload().get("roles", List.class);
+                .getPayload().get("role", String.class);
     }
 
     public boolean validateToken(String token){

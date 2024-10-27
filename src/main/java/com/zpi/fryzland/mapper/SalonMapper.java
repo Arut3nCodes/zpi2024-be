@@ -10,7 +10,7 @@ public class SalonMapper implements Mapper<SalonModel, SalonDTO>{
     @Override
     public SalonModel toModel(SalonDTO dto) {
         return new SalonModel(
-                dto.getSalonID(),
+                null,
                 dto.getSalonName(),
                 dto.getSalonDialNumber(),
                 dto.getSalonCity(),

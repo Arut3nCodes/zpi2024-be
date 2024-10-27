@@ -35,9 +35,9 @@ public class TempJwtAuthenticationFilter extends OncePerRequestFilter {
 
         if(StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)){
             String username = jwtTokenProvider.getUsername(token);
-            List<String> roles = jwtTokenProvider.getRoles(token);
-            if(!roles.isEmpty()) {
-                UserDetails userDetails = userDetailsService.loadUserByUsernameWithRole(username, roles.get(0));
+            String role = jwtTokenProvider.getRoles(token);
+            if(!role.isEmpty()) {
+                UserDetails userDetails = userDetailsService.loadUserByUsernameWithRole(username, role);
 
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                         userDetails,
