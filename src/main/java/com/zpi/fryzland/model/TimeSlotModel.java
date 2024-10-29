@@ -25,6 +25,6 @@ public class TimeSlotModel {
     @Column(name="GodzinaO", nullable = false)
     private Time timeSlotTime;
     @ManyToOne
-    @JoinColumn(name="PracownikID", unique = true)
+    @JoinColumn(name="PracownikID", nullable = false)
     private EmployeeModel employeeModel;
 }

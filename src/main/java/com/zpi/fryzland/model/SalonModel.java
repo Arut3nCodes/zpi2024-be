@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity(name = "Salony")
 public class SalonModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SalonID")
     private Integer SalonID;
     @Column(name = "NazwaS", nullable = false, unique = true, length = 50)

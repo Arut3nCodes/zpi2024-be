@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Range;
 @Entity(name="Oceny")
 public class RatingModel {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="OcenyID")
     private Integer ratingColumn;
     @Range(min = 1, max = 5)
@@ -21,7 +21,7 @@ public class RatingModel {
     @Column(name="Opinia", length = 400)
     private String ratingOpinion;
     @ManyToOne
-    @JoinColumn(name="PracownikID", nullable = false, unique = true)
+    @JoinColumn(name="PracownikID", nullable = false)
     private EmployeeModel employeeModel;
     @ManyToOne
     @JoinColumn(name="WizytaID", nullable = false, unique = true)

@@ -18,7 +18,7 @@ import java.time.LocalDate;
 public class EmployeeModel {
     @Id
     @Column(name = "PracownikID")
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer employeeID;
     @Column(name = "ImieP", length = 50, nullable = false)
     private String employeeName;

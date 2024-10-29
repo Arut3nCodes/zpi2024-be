@@ -14,7 +14,7 @@ import java.util.Date;
 @Entity(name="PrzydzialDoSalonu")
 public class AssignmentToSalonModel {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="PrzydzialID")
     private Integer assignmentID;
     @FutureOrPresent

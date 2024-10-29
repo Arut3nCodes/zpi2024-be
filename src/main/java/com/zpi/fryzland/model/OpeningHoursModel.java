@@ -16,17 +16,17 @@ import java.sql.Time;
 @Entity(name = "GodzinyOtwarcia")
 public class OpeningHoursModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "GodzID")
     private Integer openingHoursID;
     @Range(min = 1, max = 7)
     @Column(name = "DzienTygodnia", nullable = false)
     private Integer weekday;
-    @Column(name = "GodzOtw", nullable = false)
+    @Column(name = "GodzOtw", nullable = false, columnDefinition = "TIME(0)")
     private Time openingHour;
-    @Column(name = "GodzZamk", nullable = false)
+    @Column(name = "GodzZamk", nullable = false, columnDefinition = "TIME(0)")
     private Time closingHour;
     @ManyToOne()
-    @JoinColumn(name = "salonID", unique = true, nullable = false)
+    @JoinColumn(name = "salonID", nullable = false)
     private SalonModel salonID;
 }

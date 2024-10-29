@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity(name = "KwalifikacjePracownika")
 public class EmployeeQualificationModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "KwalifikacjaID")
     private Integer employeeQualificationID;
     @ManyToOne

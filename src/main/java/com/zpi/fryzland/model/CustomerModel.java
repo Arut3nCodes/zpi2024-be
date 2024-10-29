@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Entity(name="Klienci")
 public class CustomerModel {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="KlientID")
     private Integer customerID;
     @Column(name="ImieK", length = 50, nullable = false)

@@ -15,14 +15,14 @@ import java.util.Date;
 @Entity(name="Wizyty")
 public class VisitModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="WizytaID")
     private Integer visitID;
     @FutureOrPresent
     @Column(name="DataW", nullable = false)
     private Date visitDate;
     @FutureOrPresent
-    @Column(name="GodzinaRozp", nullable = false)
+    @Column(name="GodzinaRozp", nullable = false, columnDefinition = "TIME(0)")
     private Time visitStartDate;
     @ManyToOne
     @JoinColumn(name="PracownikID")

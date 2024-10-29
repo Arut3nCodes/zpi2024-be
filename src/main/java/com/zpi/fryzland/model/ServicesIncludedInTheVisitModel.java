@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity(name="UsługiWybraneDoWizyty")
 public class ServicesIncludedInTheVisitModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="UsługaWizytaID")
     private Integer serviceInVisitId;
     @ManyToOne

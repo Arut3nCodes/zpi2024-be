@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Entity(name = "KategoriaUslugi")
 public class ServiceCategoryModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "KategoriaID")
     private Integer serviceCategoryId;
     @Column(name = "NazwaKat", nullable = false, unique = true, length = 50)

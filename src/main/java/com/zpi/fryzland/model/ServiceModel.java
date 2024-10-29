@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Range;
 @Entity(name = "Usługi")
 public class ServiceModel {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "UsługaID")
     private Integer serviceID;
     @Column(name = "NazwaU", nullable = false, length = 50)
@@ -26,6 +26,6 @@ public class ServiceModel {
     @Column(name="OpisU", length = 200)
     private String serviceDescription;
     @ManyToOne
-    @JoinColumn(name="KategoriaU", unique = true)
+    @JoinColumn(name="KategoriaU", nullable = false)
     private ServiceCategoryModel serviceCategoryModel;
 }
