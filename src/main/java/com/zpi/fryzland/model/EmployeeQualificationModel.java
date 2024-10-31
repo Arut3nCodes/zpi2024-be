@@ -17,8 +17,8 @@ public class EmployeeQualificationModel {
     private Integer employeeQualificationID;
     @ManyToOne
     @JoinColumn(name = "KategoriaID")
-    private ServiceCategoryModel serviceCategoryID;
+    private ServiceCategoryModel serviceCategoryModel;
     @ManyToOne
     @JoinColumn(name = "PracownikID")
-    private EmployeeModel employeeID;
+    private EmployeeModel employeeModel;
 }

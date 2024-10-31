@@ -1,5 +1,6 @@
 package com.zpi.fryzland.service;
 
+import com.zpi.fryzland.model.EmployeeQualificationModel;
 import com.zpi.fryzland.model.ServiceCategoryModel;
 import com.zpi.fryzland.model.ServiceModel;
 import com.zpi.fryzland.repository.ServiceCategoryRepository;
@@ -30,6 +31,13 @@ public class ServiceCategoryService {
             listOfCategories.add(categoryModel);
         }
         return listOfCategories;
+    }
+
+    public List<ServiceCategoryModel> getAllUniqueCategoriesByEmployeeQualification(List<EmployeeQualificationModel> listOfQualifications) {
+        return listOfQualifications.stream()
+                .map(model -> model.getServiceCategoryModel())
+                .distinct()
+                .toList();
     }
 
     public void deleteCategory(ServiceCategoryModel categoryModel){

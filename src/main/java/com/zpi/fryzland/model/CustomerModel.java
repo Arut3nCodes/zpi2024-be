@@ -22,7 +22,6 @@ public class CustomerModel {
     @Column(name="NrTelK", unique = true, nullable = false)
     @Pattern(regexp="^\\+[0-9]{1,3}\\s[0-9]{5,12}$")
     private String customerDialNumber;
-    //todo Uzupelnic
     @Column(name="HasloK", nullable = false, length = 512)
     private String encryptedCustomerPassword;
     @Column(name="EmailK", unique = true, nullable = false)

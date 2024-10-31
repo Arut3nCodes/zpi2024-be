@@ -1,16 +1,21 @@
 package com.zpi.fryzland.mapper;
 
 /**
- * This interface is made to unify and simplify Model - DTO mapper implementation
+ * This interface is made to unify and simplify Model - DTO mapper implementation <br>
  * The interface usage is as it goes
- * ... implements Mapper< T, U>
- * Where:
- * T - Model Type of certain entity (e.g. CustomerModel)
- * U - DTO Type of the same entity  (e.g. CustomerDTO)
+ * <p>
+ * ... implements Mapper< T, U> <br>
+ * Where: <br>
+ * T - Model Type of certain entity (e.g. CustomerModel) <br>
+ * U - DTO Type of the same entity  (e.g. CustomerDTO) <br>
+ *
+ * <p/>
  */
 
 public interface Mapper<T, U> {
 
     T toModel(U dto, boolean withId);
-    U toDTO(T model);
+    default U toDTO(T model){
+        throw new UnsupportedOperationException();
+    }
 }
