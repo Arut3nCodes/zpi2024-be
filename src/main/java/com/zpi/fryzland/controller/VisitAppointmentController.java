@@ -1,6 +1,7 @@
 package com.zpi.fryzland.controller;
 
 import com.zpi.fryzland.dto.SalonDTO;
+import com.zpi.fryzland.dto.employeeDisplay.SalonServiceIdsDTO;
 import com.zpi.fryzland.dto.serviceDisplay.CategoryWithServicesDTO;
 import com.zpi.fryzland.mapper.CategoriesWithServicesMapper;
 import com.zpi.fryzland.mapper.SalonMapper;
@@ -17,32 +18,32 @@ import java.util.Optional;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/api/crud/appointment-making")
-//todo: Przeniesc funkcjonalność do osobnego serwisu
 public class VisitAppointmentController {
-    private final SalonService salonService;
-    private final AssignmentToSalonService assignmentService;
-    private final EmployeeService employeeService;
-    private final EmployeeQualificationService employeeQualificationService;
-    private final ServiceCategoryService categoryService;
-    private final ServiceService serviceService;
-    private final SalonMapper salonMapper;
-    private final CategoriesWithServicesMapper categoriesWithServicesMapper;
+    private final VisitAppointmentService visitAppointmentService;
 
-    @GetMapping("/services-and-categories/{id}")
-    public ResponseEntity<CategoryWithServicesDTO> getAllCategoriesWithServicesInTheTimeSpan(@PathVariable Integer id){
+    @GetMapping("/services-and-categories/{salonId}")
+    public ResponseEntity<CategoryWithServicesDTO> getAllCategoriesWithServices(@PathVariable Integer salonId){
         try{
-            List<AssignmentToSalonModel> listOfAssignments = assignmentService.findAllAssignmentsBySalonID(id);
-            System.out.println(listOfAssignments);
-            List<EmployeeModel> listOfEmployees = employeeService.getAllEmployeesByAssignment(listOfAssignments);
-            System.out.println(listOfEmployees);
-            List<EmployeeQualificationModel> listOfQualifications = employeeQualificationService.findAllQualificationsByEmployee(listOfEmployees);
-            System.out.println(listOfQualifications);
-            List<ServiceCategoryModel> listOfCategories = categoryService.getAllUniqueCategoriesByEmployeeQualification(listOfQualifications);
-            System.out.println(listOfCategories);
-            CategoryWithServicesDTO dtoToSend = categoriesWithServicesMapper.toDTO(listOfCategories);
+            CategoryWithServicesDTO dtoToSend = visitAppointmentService.getAllCategoriesWithServicesInTheTimespan(salonId);
             return ResponseEntity.ok().body(dtoToSend);
 
         }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/employees")
+    public ResponseEntity<List<EmployeeModel>> getAllEmployeesThatCanServeService(@RequestBody SalonServiceIdsDTO salonServiceIdsDTO){
+        try{
+            if(salonServiceIdsDTO.getSalonID() == null || salonServiceIdsDTO.getServiceIds() == null){
+                throw new NullPointerException("One of the fields is null");
+            }
+            if(salonServiceIdsDTO.getServiceIds().isEmpty() || salonServiceIdsDTO.getServiceIds().size() > 3){
+                return ResponseEntity.badRequest().build();
+            }
+            List<EmployeeModel> listOfEmployees = visitAppointmentService.getAllEmployeesThatProvideChosenServices(salonServiceIdsDTO.getSalonID(), salonServiceIdsDTO.getServiceIds());
+            return ResponseEntity.ok(listOfEmployees);
+        } catch(Exception e){
             return ResponseEntity.badRequest().build();
         }
     }

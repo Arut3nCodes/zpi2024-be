@@ -2,6 +2,7 @@ package com.zpi.fryzland.service;
 
 import com.zpi.fryzland.model.EmployeeModel;
 import com.zpi.fryzland.model.EmployeeQualificationModel;
+import com.zpi.fryzland.model.ServiceCategoryModel;
 import com.zpi.fryzland.repository.EmployeeQualificationsRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,10 @@ public class EmployeeQualificationService {
             qualificationsList.addAll(qualificationsRepository.getAllByEmployeeModel(employeeModel));
         }
         return qualificationsList;
+    }
+
+    public List<EmployeeQualificationModel> findAllByEmployeesAndCategories(List<EmployeeModel> employeeModelList, List<ServiceCategoryModel> serviceCategoryModelList){
+        return qualificationsRepository.getAllByEmployeeModelInAndServiceCategoryModelIn(employeeModelList, serviceCategoryModelList);
     }
 
 }

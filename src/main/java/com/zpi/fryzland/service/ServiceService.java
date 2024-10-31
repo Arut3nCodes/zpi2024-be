@@ -40,6 +40,10 @@ public class ServiceService {
         return listOfServices;
     }
 
+    public List<ServiceModel> getAllServicesByIds(List<Integer> listOfIds){
+        return serviceRepository.findAllById(listOfIds);
+    }
+
     public void deleteService(ServiceModel serviceModel){
         serviceRepository.delete(serviceModel);
     }
