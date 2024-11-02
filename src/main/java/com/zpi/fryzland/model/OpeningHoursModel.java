@@ -28,5 +28,5 @@ public class OpeningHoursModel {
     private Time closingHour;
     @ManyToOne()
     @JoinColumn(name = "salonID", nullable = false)
-    private SalonModel salonID;
+    private SalonModel salonModel;
 }

@@ -1,5 +1,6 @@
 package com.zpi.fryzland.model;
 
+import com.zpi.fryzland.model.compositekey.TimeSlotKey;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -15,6 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Data
 @Entity(name="OkienkaCzasowe")
+@IdClass(TimeSlotKey.class)
 public class TimeSlotModel {
     @Id
     @FutureOrPresent

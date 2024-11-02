@@ -1,10 +1,7 @@
 package com.zpi.fryzland.controller;
 
-import com.zpi.fryzland.dto.SalonDTO;
 import com.zpi.fryzland.dto.employeeDisplay.SalonServiceIdsDTO;
 import com.zpi.fryzland.dto.serviceDisplay.CategoryWithServicesDTO;
-import com.zpi.fryzland.mapper.CategoriesWithServicesMapper;
-import com.zpi.fryzland.mapper.SalonMapper;
 import com.zpi.fryzland.model.*;
 import com.zpi.fryzland.service.*;
 import lombok.AllArgsConstructor;
@@ -13,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -21,6 +17,7 @@ import java.util.Optional;
 public class VisitAppointmentController {
     private final VisitAppointmentService visitAppointmentService;
 
+    //todo: Rozszerzyć działanie obu metod o filtrowanie ze względu na odstęp czasu (Ten o którym mówimy w założeniach)
     @GetMapping("/services-and-categories/{salonId}")
     public ResponseEntity<CategoryWithServicesDTO> getAllCategoriesWithServices(@PathVariable Integer salonId){
         try{
@@ -47,4 +44,6 @@ public class VisitAppointmentController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+
 }
