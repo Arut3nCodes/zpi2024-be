@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -24,7 +25,7 @@ public class VisitModel {
     private LocalDate visitDate;
     @FutureOrPresent
     @Column(name="GodzinaRozp", nullable = false, columnDefinition = "TIME(0)")
-    private Time visitStartDate;
+    private LocalTime visitStartDate;
     @ManyToOne
     @JoinColumn(name="PracownikID")
     private AssignmentToSalonModel assigmentModel;

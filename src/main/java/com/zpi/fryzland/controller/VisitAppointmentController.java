@@ -83,17 +83,17 @@ public class VisitAppointmentController {
         }
     }
 
-//    @PostMapping("/save-visit")
-//    public ResponseEntity<HttpStatus> saveVisitInDatabase(@RequestBody SaveVisitDTO visitDTO){
-//        try{
-//            VisitModel visitModel = visitAppointmentService.makeAnAppointment(visitDTO);
-//            if(visitModel != null){
-//                return ResponseEntity.status(201).build();
-//            }else{
-//                return ResponseEntity.badRequest().build();
-//            }
-//        }catch(Exception e){
-//            return ResponseEntity.badRequest().build();
-//        }
-//    }
+    @PostMapping("/save-visit")
+    public ResponseEntity<HttpStatus> saveVisitInDatabase(@RequestBody SaveVisitDTO visitDTO){
+        try{
+            VisitModel visitModel = visitAppointmentService.makeAnAppointment(visitDTO);
+            if(visitModel != null){
+                return ResponseEntity.status(201).build();
+            }else{
+                return ResponseEntity.badRequest().build();
+            }
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

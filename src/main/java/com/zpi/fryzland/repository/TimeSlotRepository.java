@@ -8,10 +8,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface TimeSlotRepository extends JpaRepository<TimeSlotModel, TimeSlotKey> {
     List<TimeSlotModel> getAllByEmployeeModelAndTimeSlotDateBefore(EmployeeModel employeeModel, LocalDate beforeDate);
+    List<TimeSlotModel> getAllByEmployeeModelAndTimeSlotTimeGreaterThanEqualAndTimeSlotTimeLessThanEqual(EmployeeModel employeeModel, LocalTime startTime, LocalTime endTime);
 }

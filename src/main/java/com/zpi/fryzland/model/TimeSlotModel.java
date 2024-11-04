@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -26,7 +27,7 @@ public class TimeSlotModel {
     @Id
     @FutureOrPresent
     @Column(name="GodzinaO", nullable = false)
-    private Time timeSlotTime;
+    private LocalTime timeSlotTime;
     @ManyToOne
     @JoinColumn(name="PracownikID", nullable = false)
     private EmployeeModel employeeModel;

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -12,10 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class SaveVisitDTO {
-    private Date visitDate;
-    private Time visitStartDate;
     private Integer SalonID;
     private Integer employeeID;
     private Integer customerID;
     private List<Integer> serviceIDList;
+    private LocalDate visitDate;
+    private LocalTime visitStartTime;
 }

@@ -21,10 +21,12 @@ public class VisitAppointmentService {
     private final EmployeeQualificationService employeeQualificationService;
     private final ServiceCategoryService categoryService;
     private final ServiceService serviceService;
-    private final SalonMapper salonMapper;
     private final CategoriesWithServicesMapper categoriesWithServicesMapper;
     private final OpeningHoursService openingHoursService;
     private final TimeSlotService timeSlotService;
+    private final CustomerService customerService;
+    private final VisitService visitService;
+    private final ServicesIncludedInTheVisitService serviceIncludedService;
 
     public CategoryWithServicesDTO getAllCategoriesWithServicesInTheTimespan(int salonId){
         List<AssignmentToSalonModel> listOfAssignments = assignmentService.findAllAssignmentsBySalonID(salonId);
@@ -69,9 +71,47 @@ public class VisitAppointmentService {
         }
     }
 
-//    public VisitModel makeAnAppointment(SaveVisitDTO visitDTO){
-//
-//    }
+    public VisitModel makeAnAppointment(SaveVisitDTO visitDTO){
+        AssignmentToSalonModel assignmentModel = assignmentService.findAssignmentByEmployeeAndSalonAndDate(
+                visitDTO.getSalonID(), visitDTO.getEmployeeID(), visitDTO.getVisitDate()
+        );
+        List<ServiceModel> listOfServices = serviceService.getAllServicesByIds(visitDTO.getServiceIDList());
+        CustomerModel customerModel = customerService.findCustomerById(visitDTO.getCustomerID());
+
+        if(assignmentModel != null && listOfServices.size() == visitDTO.getServiceIDList().size() && customerModel != null){
+            long howManyTimeSlots = listOfServices.stream()
+                    .mapToLong(model -> model.getServiceSpan())
+                    .sum();
+            if(timeSlotService.checkIfNextTimeSlotsSinceTimeExist(assignmentModel.getEmployeeModel(), howManyTimeSlots, visitDTO.getVisitStartTime())){
+                timeSlotService.createAndSaveMultipleTimeslots(
+                        assignmentModel.getEmployeeModel(),
+                        visitDTO.getVisitDate(),
+                        visitDTO.getVisitStartTime(),
+                        howManyTimeSlots
+                );
+            }
+            else{
+                return null;
+            }
+
+            VisitModel visitModel = new VisitModel(
+                    null,
+                    visitDTO.getVisitDate(),
+                    visitDTO.getVisitStartTime(),
+                    assignmentModel,
+                    customerModel
+            );
+
+            visitModel = visitService.addVisit(visitModel);
+            if(visitModel != null){
+                List<ServicesIncludedInTheVisitModel> serviceIncludedList = serviceIncludedService.saveAllServiceVisitConnections(listOfServices, visitModel);
+                if(serviceIncludedList.size() == listOfServices.size()){
+                    return visitModel;
+                }
+            }
+        }
+        return null;
+    }
 
     public List<LocalDate> getAllDatesEmployeesAreAvailableOn(int salonId, int employeeId){
         return assignmentService.getAllAvailabilityDatesForAnEmployee(salonId, employeeId);

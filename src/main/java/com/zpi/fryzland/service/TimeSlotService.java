@@ -7,7 +7,10 @@ import com.zpi.fryzland.repository.TimeSlotRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -33,5 +36,24 @@ public class TimeSlotService {
 
     public List<TimeSlotModel> getAllTimeSlotsByEmployeeBeforeDate(EmployeeModel employeeModel, LocalDate date){
         return repository.getAllByEmployeeModelAndTimeSlotDateBefore(employeeModel, date);
+    }
+
+    public boolean checkIfNextTimeSlotsSinceTimeExist(EmployeeModel employeeModel, long amountOfTimeSlots, LocalTime startTime){
+        return !repository.getAllByEmployeeModelAndTimeSlotTimeGreaterThanEqualAndTimeSlotTimeLessThanEqual(
+                employeeModel,
+                startTime,
+                startTime.minusMinutes((amountOfTimeSlots-1L) * 15L)
+        ).isEmpty();
+    }
+
+    public List<TimeSlotModel> createAndSaveMultipleTimeslots(EmployeeModel employeeProvidingService, LocalDate dateOfVisit, LocalTime timeStartOfVisit, long amountOfTimeSlots){
+        List<TimeSlotModel> timeSlotToSaveList = new ArrayList<>();
+        for(int i = 0; i < amountOfTimeSlots-1; i++){
+            timeSlotToSaveList.add(new TimeSlotModel(dateOfVisit,
+                    timeStartOfVisit,
+                    employeeProvidingService));
+            timeStartOfVisit = timeStartOfVisit.plusMinutes(15);
+        }
+        return repository.saveAll(timeSlotToSaveList);
     }
 }
