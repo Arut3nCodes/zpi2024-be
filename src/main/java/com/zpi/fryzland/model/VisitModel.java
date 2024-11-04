@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -20,7 +21,7 @@ public class VisitModel {
     private Integer visitID;
     @FutureOrPresent
     @Column(name="DataW", nullable = false)
-    private Date visitDate;
+    private LocalDate visitDate;
     @FutureOrPresent
     @Column(name="GodzinaRozp", nullable = false, columnDefinition = "TIME(0)")
     private Time visitStartDate;

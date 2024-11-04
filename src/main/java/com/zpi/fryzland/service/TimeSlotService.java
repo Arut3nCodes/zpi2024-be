@@ -7,7 +7,7 @@ import com.zpi.fryzland.repository.TimeSlotRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -31,7 +31,7 @@ public class TimeSlotService {
         repository.deleteById(id);
     }
 
-    public List<TimeSlotModel> getAllTimeSlotsByEmployeeBeforeDate(EmployeeModel employeeModel, Date date){
+    public List<TimeSlotModel> getAllTimeSlotsByEmployeeBeforeDate(EmployeeModel employeeModel, LocalDate date){
         return repository.getAllByEmployeeModelAndTimeSlotDateBefore(employeeModel, date);
     }
 }

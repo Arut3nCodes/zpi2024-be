@@ -6,6 +6,7 @@ import com.zpi.fryzland.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,6 @@ import java.util.Optional;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final AssignmentToSalonService assigmentService;
 
     public Optional<EmployeeModel> getByEmployeeEmail(String employeeEmail){
         return employeeRepository.findByEmployeeEmail(employeeEmail);
@@ -41,15 +41,6 @@ public class EmployeeService {
 
     public void removeEmployee(EmployeeModel employeeModel){
         employeeRepository.delete(employeeModel);
-    }
-
-    public List<EmployeeModel> getAllEmployeesBySalonIDAndDate(Integer salonID, Date date){
-        List<EmployeeModel> listOfEmployees = new ArrayList<>();
-        List<AssignmentToSalonModel> listOfAllAssignments = assigmentService.findAllAssignmentsBySalonIDAndAssignmentDate(salonID, date);
-        for(AssignmentToSalonModel salonModel: listOfAllAssignments){
-            listOfEmployees.add(salonModel.getEmployeeModel());
-        }
-        return listOfEmployees;
     }
 
     public List<EmployeeModel> getAllEmployeesByAssignment(List<AssignmentToSalonModel> listOfAssignments){

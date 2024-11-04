@@ -10,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -21,7 +22,7 @@ public class TimeSlotModel {
     @Id
     @FutureOrPresent
     @Column(name="DataO", nullable = false)
-    private Date timeSlotDate;
+    private LocalDate timeSlotDate;
     @Id
     @FutureOrPresent
     @Column(name="GodzinaO", nullable = false)
