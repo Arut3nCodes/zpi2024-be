@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -36,7 +37,7 @@ public class VisitAppointmentService {
         return categoriesWithServicesMapper.toDTO(listOfCategories);
     }
 
-    public List<EmployeeModel> getAllEmployeesThatProvideChosenServices(int salonId, List<Integer> serviceIds){
+    public List<EmployeeModel> getAllEmployeesThatProvideChosenServices(int salonId, List<Integer> serviceIds) {
         List<AssignmentToSalonModel> listOfAssignments = assignmentService.findAllAssignmentsBySalonID(salonId);
         List<EmployeeModel> listOfEmployees = employeeService.getAllEmployeesByAssignment(listOfAssignments);
         List<ServiceModel> listOfServices = serviceService.getAllServicesByIds(serviceIds);
@@ -46,11 +47,13 @@ public class VisitAppointmentService {
                 .toList();
         return employeeQualificationService.findAllByEmployeesAndCategories(listOfEmployees, listOfCategories)
                 .stream()
-                .map(model -> model.getEmployeeModel())
-                .distinct()
+                .collect(Collectors.groupingBy(model -> model.getEmployeeModel(), Collectors.mapping(model -> model.getServiceCategoryModel(), Collectors.toList())))
+                .entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().containsAll(listOfCategories))
+                .map(entry -> entry.getKey())
                 .toList();
     }
-
     public List<OpeningHoursModel> getAllOpeningHoursForSalon(int salonId){
         Optional<SalonModel> optionalSalonModel = salonService.getSalonById(salonId);
         if(optionalSalonModel.isPresent()){

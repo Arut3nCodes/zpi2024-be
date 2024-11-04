@@ -35,7 +35,7 @@ public class VisitAppointmentController {
         }
     }
 
-    @GetMapping("/employees")
+    @PostMapping("/employees")
     public ResponseEntity<List<EmployeeModel>> getAllEmployeesThatCanServeService(@RequestBody SalonServiceIdsDTO salonServiceIdsDTO){
         try{
             if(salonServiceIdsDTO.getSalonID() == null || salonServiceIdsDTO.getServiceIds() == null){
