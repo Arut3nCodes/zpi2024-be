@@ -22,6 +22,14 @@ public class VisitService {
         return repository.findById(id);
     }
 
+    public List<VisitModel> getAllVisitsByCustomerID(int customerID){
+        return repository.getAllByCustomerModel_CustomerID(customerID);
+    }
+
+    public List<VisitModel> getAllVisitsByEmployeeID(int employeeID){
+        return repository.getAllByAssigmentModel_EmployeeModel_EmployeeID(employeeID);
+    }
+
     public List<VisitModel> getAllVisits(){
         return repository.findAll();
     }
