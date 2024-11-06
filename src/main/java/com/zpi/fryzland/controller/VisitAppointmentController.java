@@ -1,6 +1,7 @@
 package com.zpi.fryzland.controller;
 
 import com.zpi.fryzland.dto.SaveVisitDTO;
+import com.zpi.fryzland.dto.TimeSlotDTO;
 import com.zpi.fryzland.dto.VisitDTO;
 import com.zpi.fryzland.dto.employeeDisplay.SalonServiceIdsDTO;
 import com.zpi.fryzland.dto.serviceDisplay.CategoryWithServicesDTO;
@@ -64,9 +65,9 @@ public class VisitAppointmentController {
     }
 
     @GetMapping("/time-slots/{employeeId}")
-    public ResponseEntity<List<TimeSlotModel>> getAllTimeslotsForAnEmployee(@PathVariable int employeeId){
+    public ResponseEntity<List<TimeSlotDTO>> getAllTimeslotsForAnEmployee(@PathVariable int employeeId){
         try{
-            List<TimeSlotModel> timeSlotModelList = visitAppointmentService.getAllTimeSlotsForEmployeeBeforeDate(employeeId, LocalDate.now().plusDays(14));
+            List<TimeSlotDTO> timeSlotModelList = visitAppointmentService.getAllTimeSlotsForEmployeeBeforeDate(employeeId, LocalDate.now().plusDays(14));
             return ResponseEntity.ok(timeSlotModelList);
         } catch(Exception e){
             return ResponseEntity.badRequest().build();

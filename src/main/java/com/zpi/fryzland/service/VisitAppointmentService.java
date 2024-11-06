@@ -1,9 +1,12 @@
 package com.zpi.fryzland.service;
 
 import com.zpi.fryzland.dto.SaveVisitDTO;
+import com.zpi.fryzland.dto.TimeSlotDTO;
 import com.zpi.fryzland.dto.serviceDisplay.CategoryWithServicesDTO;
 import com.zpi.fryzland.mapper.CategoriesWithServicesMapper;
 import com.zpi.fryzland.mapper.SalonMapper;
+import com.zpi.fryzland.mapper.TimeSlotMapper;
+import com.zpi.fryzland.mapper.VisitMapper;
 import com.zpi.fryzland.model.*;
 import com.zpi.fryzland.validators.OpeningHours;
 import lombok.AllArgsConstructor;
@@ -28,6 +31,7 @@ public class VisitAppointmentService {
     private final CustomerService customerService;
     private final VisitService visitService;
     private final ServicesIncludedInTheVisitService serviceIncludedService;
+    private final TimeSlotMapper timeSlotMapper;
 
     public CategoryWithServicesDTO getAllCategoriesWithServicesInTheTimespan(int salonId){
         List<AssignmentToSalonModel> listOfAssignments = assignmentService.findAllAssignmentsBySalonID(salonId);
@@ -64,10 +68,13 @@ public class VisitAppointmentService {
         }
     }
 
-    public List<TimeSlotModel> getAllTimeSlotsForEmployeeBeforeDate(int employeeId, LocalDate date){
+    public List<TimeSlotDTO> getAllTimeSlotsForEmployeeBeforeDate(int employeeId, LocalDate date){
         Optional<EmployeeModel> optionalEmployeeModel = employeeService.getEmployeeById(employeeId);
         if(optionalEmployeeModel.isPresent()){
-            return timeSlotService.getAllTimeSlotsByEmployeeBeforeDate(optionalEmployeeModel.get(), date);
+            return timeSlotService.getAllTimeSlotsByEmployeeBeforeDate(optionalEmployeeModel.get(), date)
+                    .stream()
+                    .map(model -> timeSlotMapper.toDTO(model))
+                    .toList();
         }
         else{
             return new ArrayList<>();

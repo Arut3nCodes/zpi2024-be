@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class TimeSlotKey implements Serializable {
-    private Date timeSlotDate;
-    private Time timeSlotTime;
+    private LocalDate timeSlotDate;
+    private LocalTime timeSlotTime;
 }

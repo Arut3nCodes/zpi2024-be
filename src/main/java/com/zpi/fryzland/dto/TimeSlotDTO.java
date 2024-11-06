@@ -5,13 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class TimeSlotDTO {
-    private Date timeSlotDate;
-    private Time timeSlotTime;
+    private LocalDate timeSlotDate;
+    private LocalTime timeSlotTime;
     private Integer employeeID;  // Replaced EmployeeModel with an Integer ID
 }
