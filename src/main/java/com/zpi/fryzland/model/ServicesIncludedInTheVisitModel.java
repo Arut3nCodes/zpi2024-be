@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Entity(name="UsługiWybraneDoWizyty")
+@Entity(name="UslugiWybraneDoWizyty")
 public class ServicesIncludedInTheVisitModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="UsługaWizytaID")
+    @Column(name="UslugaWizytaID")
     private Integer serviceInVisitId;
     @ManyToOne
-    @JoinColumn(name="UsługaID")
+    @JoinColumn(name="UslugaID")
     private ServiceModel serviceModel;
     @ManyToOne
     @JoinColumn(name="WizytaID")
