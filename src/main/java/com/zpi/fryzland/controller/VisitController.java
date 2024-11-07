@@ -36,10 +36,29 @@ public class VisitController {
         }
     }
 
-//    @GetMapping("/forCustomer/{customerID}")
-//    public ResponseEntity getAllVisitsByCustomerID(@PathVariable int customerID){
-//        try {
-//            List<VisitModel> =
-//        }
-//    }
+    @GetMapping("/forCustomer/{customerID}")
+    public ResponseEntity<List<VisitDTO>> getAllVisitsByCustomerID(@PathVariable int customerID){
+        try {
+            List<VisitDTO> visitList = visitService.getAllVisitsByCustomerID(customerID)
+                    .stream()
+                    .map(model -> visitMapper.toDTO(model))
+                    .toList();
+            return ResponseEntity.ok(visitList);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/forEmployee/{employeeID}")
+    public ResponseEntity<List<VisitDTO>> getAllVisitsByEmployeeID(@PathVariable int employeeID){
+        try{
+            List<VisitDTO> visitList = visitService.getAllVisitsByEmployeeID(employeeID)
+                    .stream()
+                    .map(model -> visitMapper.toDTO(model))
+                    .toList();
+            return ResponseEntity.ok(visitList);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

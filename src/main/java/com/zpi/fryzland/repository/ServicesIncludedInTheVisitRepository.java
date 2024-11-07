@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ServicesIncludedInTheVisitRepository extends JpaRepository<ServicesIncludedInTheVisitModel, Integer> {
     public List<ServicesIncludedInTheVisitModel> getAllByVisitModel_VisitID(int visitID);
+
 }
