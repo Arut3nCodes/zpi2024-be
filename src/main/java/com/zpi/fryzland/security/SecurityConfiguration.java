@@ -1,14 +1,12 @@
 package com.zpi.fryzland.security;
 
 import com.zpi.fryzland.security.authentication.CustomAuthenticationProvider;
-import com.zpi.fryzland.security.authentication.CustomUserDetailsService;
 import com.zpi.fryzland.security.jwt.JwtAuthenticationEntryPoint;
-import com.zpi.fryzland.security.jwt.TempJwtAuthenticationFilter;
+import com.zpi.fryzland.security.jwt.JwtAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -33,7 +31,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration {
 
     private JwtAuthenticationEntryPoint authenticationEntryPoint;
-    private TempJwtAuthenticationFilter authenticationFilter;
+    private JwtAuthenticationFilter authenticationFilter;
     private CustomAuthenticationProvider customAuthenticationProvider;
 
     @Bean
