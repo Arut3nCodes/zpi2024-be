@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -15,6 +16,18 @@ public class RatingService{
 
     public RatingModel addRating(RatingModel ratingModel){
         return repository.save(ratingModel);
+    }
+
+    public Optional<RatingModel> getRatingById(int id){
+        return repository.findById(id);
+    }
+
+    public List<RatingModel> getAllRatingsByEmployeeID(int id){
+        return repository.getAllByEmployeeModel_EmployeeID(id);
+    }
+
+    public List<RatingModel> getAllRatingsBySalonID(int id){
+        return repository.getAllByVisitModel_AssigmentModel_SalonModel_SalonID(id);
     }
 
     public RatingModel editRating(RatingModel ratingModel){
@@ -28,16 +41,6 @@ public class RatingService{
     public void removeRatingById(int id){
         repository.deleteById(id);
     }
-
-    public List<RatingModel> getAllRatingsByEmployeeID(int id){
-        return repository.getAllByEmployeeModel_EmployeeID(id);
-    }
-
-    public List<RatingModel> getAllRatingsBySalonID(int id){
-        return repository.getAllByVisitModel_AssigmentModel_SalonModel_SalonID(id);
-    }
-
-    //todo: Zmienić precyzję?
 
     public float calculateAverageRatingForEmployeeById(int id){
         return (float) getAllRatingsByEmployeeID(id)

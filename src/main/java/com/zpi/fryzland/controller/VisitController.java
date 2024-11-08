@@ -2,7 +2,6 @@ package com.zpi.fryzland.controller;
 
 import com.zpi.fryzland.service.VisitService;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
