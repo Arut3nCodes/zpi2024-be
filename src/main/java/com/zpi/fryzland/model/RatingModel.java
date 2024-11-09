@@ -14,7 +14,7 @@ public class RatingModel {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     @Column(name="OcenyID")
-    private Integer ratingColumn;
+    private Integer ratingID;
     @Range(min = 1, max = 5)
     @Column(name="WartoscOceny", nullable = false)
     private float ratingValue;

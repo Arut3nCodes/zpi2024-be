@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class SaveVisitDTO {
-    private Integer SalonID;
+    private Integer salonID;
     private Integer employeeID;
     private Integer customerID;
     private List<Integer> serviceIDList;

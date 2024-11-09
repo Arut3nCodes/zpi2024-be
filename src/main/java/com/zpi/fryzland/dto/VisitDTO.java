@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -12,8 +14,8 @@ import java.util.Date;
 @Data
 public class VisitDTO {
     private Integer visitID;
-    private Date visitDate;
-    private Time visitStartDate;
+    private LocalDate visitDate;
+    private LocalTime visitStartDate;
     private Integer assigmentID;
     private Integer customerID;
 }

@@ -10,5 +10,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface ServiceRepository extends JpaRepository<ServiceModel, Integer> {
-    Iterable<ServiceModel> findAllByServiceCategoryModel(ServiceCategoryModel serviceCategoryModel);
+    Iterable<ServiceModel> findAllByServiceCategoryModel(ServiceCategoryModel serviceCategoryModel);    
 }

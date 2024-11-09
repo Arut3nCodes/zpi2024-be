@@ -26,4 +26,8 @@ public class ServicesIncludedInTheVisitService{
         }
         return repository.saveAll(listOfServicesIncluded);
     }
+
+    List<ServicesIncludedInTheVisitModel> getAllConnectionsByVisitId(int visitID){
+        return repository.getAllByVisitModel_VisitID(visitID);
+    }
 }
