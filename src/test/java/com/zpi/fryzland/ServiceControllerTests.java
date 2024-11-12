@@ -13,10 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import java.util.Optional;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -29,7 +32,7 @@ public class ServiceControllerTests {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
+    @MockBean
     private ServiceMapper serviceMapper;
 
     @MockBean
@@ -45,19 +48,31 @@ public class ServiceControllerTests {
         Mockito.when(serviceService.getServiceById(validId)).thenReturn(Optional.of(serviceModel));
         Mockito.when(serviceMapper.toDTO(serviceModel)).thenReturn(serviceDTO);
 
-        mockMvc.perform(get("/api/crud/service/{serviceID}" + validId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(serviceDTO)))
-                .andExpect(status().isOk());
-
-
+        mockMvc.perform(get("/api/crud/service/{serviceID}", validId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(serviceDTO)));
     }
 
-    public void getServiceByIdInvalidIdTest() throws Exception {
+    @Test
+    public void testGetServiceByIdNotFound() throws Exception {
         int invalidId = 999;
 
-        Mockito.when(serviceService.getServiceById(invalidId)).thenThrow();
+        Mockito.when(serviceService.getServiceById(invalidId)).thenReturn(Optional.empty());
 
+        mockMvc.perform(get("/api/crud/service/{serviceID}", invalidId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void testGetServiceIdFailure() throws Exception {
+
+        Mockito.when(serviceService.getServiceById(anyInt())).thenThrow(new RuntimeException());
+
+        mockMvc.perform(get("/api/crud/service/{serviceId}", anyInt())
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 }
 
