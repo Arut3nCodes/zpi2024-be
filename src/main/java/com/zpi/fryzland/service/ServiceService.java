@@ -15,8 +15,6 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ServiceService {
     private final ServiceRepository serviceRepository;
-    private final ServicesIncludedInTheVisitService connectionsService;
-
     public ServiceModel addService(ServiceModel serviceModel){
         return serviceRepository.save(serviceModel);
     }
@@ -52,12 +50,4 @@ public class ServiceService {
     public void deleteServiceById(int id){
         serviceRepository.deleteById(id);
     }
-
-    public List<ServiceModel> getAllServicesByVisitID(int visitID){
-        return connectionsService.getAllConnectionsByVisitId(visitID)
-                .stream()
-                .map(model -> model.getServiceModel())
-                .toList();
-    }
-
 }
