@@ -1,5 +1,7 @@
 package com.zpi.fryzland.service;
 
+import com.zpi.fryzland.dto.ServicesIncludedInTheVisitDTO;
+import com.zpi.fryzland.mapper.ServicesIncludedInTheVisitMapper;
 import com.zpi.fryzland.model.ServiceModel;
 import com.zpi.fryzland.model.ServicesIncludedInTheVisitModel;
 import com.zpi.fryzland.model.VisitModel;
@@ -14,7 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ServicesIncludedInTheVisitService{
     ServicesIncludedInTheVisitRepository repository;
-    List<ServicesIncludedInTheVisitModel> saveAllServiceVisitConnections(List<ServiceModel> serviceModelList, VisitModel visitModel){
+    ServicesIncludedInTheVisitMapper mapper;
+    public List<ServicesIncludedInTheVisitModel> saveAllServiceVisitConnections(List<ServiceModel> serviceModelList, VisitModel visitModel){
         List<ServicesIncludedInTheVisitModel> listOfServicesIncluded = new ArrayList<>();
         for(ServiceModel service : serviceModelList){
             ServicesIncludedInTheVisitModel serviceIncluded = new ServicesIncludedInTheVisitModel(
@@ -27,7 +30,27 @@ public class ServicesIncludedInTheVisitService{
         return repository.saveAll(listOfServicesIncluded);
     }
 
-    List<ServicesIncludedInTheVisitModel> getAllConnectionsByVisitId(int visitID){
+    public List<ServicesIncludedInTheVisitModel> getAllConnectionsByVisitId(int visitID){
         return repository.getAllByVisitModel_VisitID(visitID);
+    }
+
+    public List<ServicesIncludedInTheVisitModel> getAllConnectionsByCustomerId(int customerID){
+        return repository.getAllByVisitModel_CustomerModel_CustomerID(customerID);
+    }
+
+    public List<ServicesIncludedInTheVisitDTO> getAllDtoConnectionsByCustomerId(int customerID){
+        return mapper.allToDTO(
+                getAllConnectionsByCustomerId(customerID)
+        );
+    }
+
+    public List<ServicesIncludedInTheVisitModel> getAllConnectionsByEmployeeId(int employeeID){
+        return getAllConnectionsByVisitId(employeeID);
+    }
+
+    public List<ServicesIncludedInTheVisitDTO> getAllDtoConnectionsByEmployeeId(int employeeID){
+        return mapper.allToDTO(
+                getAllConnectionsByEmployeeId(employeeID)
+        );
     }
 }

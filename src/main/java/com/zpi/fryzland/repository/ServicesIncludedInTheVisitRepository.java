@@ -8,6 +8,8 @@ import java.util.List;
 
 @Repository
 public interface ServicesIncludedInTheVisitRepository extends JpaRepository<ServicesIncludedInTheVisitModel, Integer> {
-    public List<ServicesIncludedInTheVisitModel> getAllByVisitModel_VisitID(int visitID);
+    List<ServicesIncludedInTheVisitModel> getAllByVisitModel_VisitID(int visitID);
+    List<ServicesIncludedInTheVisitModel> getAllByVisitModel_CustomerModel_CustomerID(int customerID);
+    List<ServicesIncludedInTheVisitModel> getAllByVisitModel_AssigmentModel_EmployeeModel_EmployeeID(int employeeID);
 
 }
