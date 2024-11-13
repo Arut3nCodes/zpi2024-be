@@ -16,7 +16,7 @@ public class SalonModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SalonID")
-    private Integer SalonID;
+    private Integer salonID;
     @Column(name = "NazwaS", nullable = false, unique = true, length = 50)
     private String salonName;
     @Column(name="NrTelS", nullable = false, unique = true)
