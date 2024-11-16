@@ -13,15 +13,13 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class AuthControllerTests {
+class AuthControllerIntegrationTests {
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -67,9 +65,9 @@ class AuthControllerTests {
         CustomerDTO customerDTO = new CustomerDTO();
         customerDTO.setCustomerName("John");
         customerDTO.setCustomerSurname("Doe");
-        customerDTO.setCustomerDialNumber("456456456");
+        customerDTO.setCustomerDialNumber("090909090");
         customerDTO.setEncryptedCustomerPassword("testPassword");
-        customerDTO.setCustomerEmail("john.doe@test11.com");
+        customerDTO.setCustomerEmail("john.doe@test2.com");
         customerDTO.setServiceCategoryID(2);
 
         mockMvc.perform(post("/api/auth/customer/register")
@@ -82,7 +80,7 @@ class AuthControllerTests {
     public void testCustomerLoginSuccess() throws Exception{
         LoginDTO loginDTO = new LoginDTO();
         loginDTO.setEmail("john.doe@test1.com");
-        loginDTO.setPassword("encryptedPasswordHere");
+        loginDTO.setPassword("testPassword");
 
         mockMvc.perform(post("/api/auth/customer/login")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -108,7 +106,7 @@ class AuthControllerTests {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setEmployeeName("John");
         employeeDTO.setEmployeeSurname("Doe");
-        employeeDTO.setEmployeeDialNumber("+48 444444444");
+        employeeDTO.setEmployeeDialNumber("+48 000000000");
         employeeDTO.setEncryptedEmployeePassword("aSecurePasswordHashHere");
         employeeDTO.setEmployeeEmail("john.doe@test2.com");
         employeeDTO.setEmployeeBirthdayDate(LocalDate.parse("1990-05-15"));
@@ -139,6 +137,5 @@ class AuthControllerTests {
                 .andExpect(status().isOk());
 
     }
-
 
 }
