@@ -8,6 +8,7 @@ import com.zpi.fryzland.mapper.SalonMapper;
 import com.zpi.fryzland.mapper.TimeSlotMapper;
 import com.zpi.fryzland.mapper.VisitMapper;
 import com.zpi.fryzland.model.*;
+import com.zpi.fryzland.model.enums.VisitStatus;
 import com.zpi.fryzland.validators.OpeningHours;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -108,6 +109,7 @@ public class VisitAppointmentService {
                     null,
                     visitDTO.getVisitDate(),
                     visitDTO.getVisitStartTime(),
+                    visitDTO.getVisitStatus() != null ? VisitStatus.valueOf(visitDTO.getVisitStatus()) : null,
                     assignmentModel,
                     customerModel.get()
             );

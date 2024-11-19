@@ -16,6 +16,7 @@ public class VisitDTO {
     private Integer visitID;
     private LocalDate visitDate;
     private LocalTime visitStartDate;
+    private String visitStatus;
     private Integer assigmentID;
     private Integer customerID;
 }

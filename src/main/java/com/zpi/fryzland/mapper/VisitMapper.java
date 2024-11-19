@@ -3,6 +3,7 @@ package com.zpi.fryzland.mapper;
 import com.zpi.fryzland.dto.VisitDTO;
 import com.zpi.fryzland.model.AssignmentToSalonModel;
 import com.zpi.fryzland.model.VisitModel;
+import com.zpi.fryzland.model.enums.VisitStatus;
 import com.zpi.fryzland.service.AssignmentToSalonService;
 import com.zpi.fryzland.service.CustomerService;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ public class VisitMapper implements Mapper<VisitModel, VisitDTO> {
                 withId ? dto.getVisitID() : null,
                 dto.getVisitDate(),
                 dto.getVisitStartDate(),
+                dto.getVisitStatus() != null ? VisitStatus.valueOf(dto.getVisitStatus()) : null,
                 dto.getAssigmentID() != null ? assignmentService.findAssignmentById(dto.getAssigmentID()).orElse(null) : null,
                 dto.getCustomerID() != null ? customerService.findCustomerById(dto.getCustomerID()).orElse(null) : null
         );
@@ -30,6 +32,7 @@ public class VisitMapper implements Mapper<VisitModel, VisitDTO> {
                 model.getVisitID(),
                 model.getVisitDate(),
                 model.getVisitStartDate(),
+                model.getVisitStatus() != null ? model.getVisitStatus().name() : null,
                 model.getAssigmentModel() != null ? model.getAssigmentModel().getAssignmentID() : null,
                 model.getCustomerModel() != null ? model.getCustomerModel().getCustomerID() : null
         );
