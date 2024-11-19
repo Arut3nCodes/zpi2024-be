@@ -86,9 +86,9 @@ public class VisitAppointmentService {
                 visitDTO.getSalonID(), visitDTO.getEmployeeID(), visitDTO.getVisitDate()
         );
         List<ServiceModel> listOfServices = serviceService.getAllServicesByIds(visitDTO.getServiceIDList());
-        CustomerModel customerModel = customerService.findCustomerById(visitDTO.getCustomerID());
+        Optional<CustomerModel> customerModel = customerService.findCustomerById(visitDTO.getCustomerID());
 
-        if(assignmentModel != null && listOfServices.size() == visitDTO.getServiceIDList().size() && customerModel != null){
+        if(assignmentModel != null && listOfServices.size() == visitDTO.getServiceIDList().size() && customerModel.isPresent()){
             long howManyTimeSlots = listOfServices.stream()
                     .mapToLong(model -> model.getServiceSpan())
                     .sum();
@@ -109,7 +109,7 @@ public class VisitAppointmentService {
                     visitDTO.getVisitDate(),
                     visitDTO.getVisitStartTime(),
                     assignmentModel,
-                    customerModel
+                    customerModel.get()
             );
 
             visitModel = visitService.addVisit(visitModel);

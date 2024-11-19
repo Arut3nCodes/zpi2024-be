@@ -20,7 +20,7 @@ public class VisitMapper implements Mapper<VisitModel, VisitDTO> {
                 dto.getVisitDate(),
                 dto.getVisitStartDate(),
                 dto.getAssigmentID() != null ? assignmentService.findAssignmentById(dto.getAssigmentID()).orElse(null) : null,
-                dto.getCustomerID() != null ? customerService.findCustomerById(dto.getCustomerID()) : null
+                dto.getCustomerID() != null ? customerService.findCustomerById(dto.getCustomerID()).orElse(null) : null
         );
     }
 

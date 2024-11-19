@@ -1,9 +1,11 @@
 package com.zpi.fryzland.service;
 
 import com.zpi.fryzland.model.AssignmentToSalonModel;
+import com.zpi.fryzland.model.CustomerModel;
 import com.zpi.fryzland.model.EmployeeModel;
 import com.zpi.fryzland.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public Optional<EmployeeModel> getByEmployeeEmail(String employeeEmail){
         return employeeRepository.findByEmployeeEmail(employeeEmail);
@@ -48,5 +51,20 @@ public class EmployeeService {
                 .map(AssignmentToSalonModel::getEmployeeModel)
                 .distinct()
                 .toList();
+    }
+
+    public boolean passwordChange(int employeeID, String password){
+        Optional<EmployeeModel> optionalCustomerModel = getEmployeeById(employeeID);
+        if(optionalCustomerModel.isPresent()){
+            EmployeeModel employeeModel = optionalCustomerModel.get();
+            employeeModel.setEncryptedEmployeePassword(
+                    passwordEncoder.encode(password)
+            );
+            employeeRepository.save(employeeModel);
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }
