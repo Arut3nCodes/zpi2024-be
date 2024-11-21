@@ -89,11 +89,12 @@ public class VisitAppointmentController {
         try{
             VisitModel visitModel = visitAppointmentService.makeAnAppointment(visitDTO);
             if(visitModel != null){
-                return ResponseEntity.status(201).build();
+                return ResponseEntity.status(HttpStatus.CREATED).build();
             }else{
-                return ResponseEntity.badRequest().build();
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
             }
         }catch(Exception e){
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }

@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -83,46 +84,52 @@ public class VisitAppointmentService {
     }
 
     public VisitModel makeAnAppointment(SaveVisitDTO visitDTO){
-        AssignmentToSalonModel assignmentModel = assignmentService.findAssignmentByEmployeeAndSalonAndDate(
-                visitDTO.getSalonID(), visitDTO.getEmployeeID(), visitDTO.getVisitDate()
-        );
-        List<ServiceModel> listOfServices = serviceService.getAllServicesByIds(visitDTO.getServiceIDList());
-        Optional<CustomerModel> customerModel = customerService.findCustomerById(visitDTO.getCustomerID());
+        try{
+            AssignmentToSalonModel assignmentModel = assignmentService.findAssignmentByEmployeeAndSalonAndDate(
+                    visitDTO.getSalonID(), visitDTO.getEmployeeID(), visitDTO.getVisitDate()
+            );
+            List<ServiceModel> listOfServices = serviceService.getAllServicesByIds(visitDTO.getServiceIDList());
+            Optional<CustomerModel> customerModel = customerService.findCustomerById(visitDTO.getCustomerID());
 
-        if(assignmentModel != null && listOfServices.size() == visitDTO.getServiceIDList().size() && customerModel.isPresent()){
-            long howManyTimeSlots = listOfServices.stream()
-                    .mapToLong(model -> model.getServiceSpan())
-                    .sum();
-            if(timeSlotService.checkIfNextTimeSlotsSinceTimeExist(assignmentModel.getEmployeeModel(), howManyTimeSlots, visitDTO.getVisitStartTime())){
-                timeSlotService.createAndSaveMultipleTimeslots(
-                        assignmentModel.getEmployeeModel(),
+            if (assignmentModel != null && listOfServices.size() == visitDTO.getServiceIDList().size() && customerModel.isPresent()) {
+                long howManyTimeSlots = listOfServices.stream()
+                        .mapToLong(model -> model.getServiceSpan())
+                        .sum();
+                if (timeSlotService.checkIfNextTimeSlotsSinceTimeExist(assignmentModel.getEmployeeModel(), howManyTimeSlots, visitDTO.getVisitStartTime())) {
+                    System.out.println(LocalTime.now());
+                    timeSlotService.createAndSaveMultipleTimeslots(
+                            assignmentModel.getEmployeeModel(),
+                            visitDTO.getVisitDate(),
+                            visitDTO.getVisitStartTime(),
+                            howManyTimeSlots
+                    );
+                } else {
+                    System.out.println("Something failed");
+                    return null;
+                }
+
+                VisitModel visitModel = new VisitModel(
+                        null,
                         visitDTO.getVisitDate(),
                         visitDTO.getVisitStartTime(),
-                        howManyTimeSlots
+                        visitDTO.getVisitStatus() != null ? VisitStatus.valueOf(visitDTO.getVisitStatus()) : null,
+                        assignmentModel,
+                        customerModel.get()
                 );
-            }
-            else{
-                return null;
-            }
 
-            VisitModel visitModel = new VisitModel(
-                    null,
-                    visitDTO.getVisitDate(),
-                    visitDTO.getVisitStartTime(),
-                    visitDTO.getVisitStatus() != null ? VisitStatus.valueOf(visitDTO.getVisitStatus()) : null,
-                    assignmentModel,
-                    customerModel.get()
-            );
-
-            visitModel = visitService.addVisit(visitModel);
-            if(visitModel != null){
-                List<ServicesIncludedInTheVisitModel> serviceIncludedList = serviceIncludedService.saveAllServiceVisitConnections(listOfServices, visitModel);
-                if(serviceIncludedList.size() == listOfServices.size()){
-                    return visitModel;
+                visitModel = visitService.addVisit(visitModel);
+                if (visitModel != null) {
+                    List<ServicesIncludedInTheVisitModel> serviceIncludedList = serviceIncludedService.saveAllServiceVisitConnections(listOfServices, visitModel);
+                    if (serviceIncludedList.size() == listOfServices.size()) {
+                        return visitModel;
+                    }
                 }
             }
+            return null;
+        }catch(Exception e){
+            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public List<LocalDate> getAllDatesEmployeesAreAvailableOn(int salonId, int employeeId){
