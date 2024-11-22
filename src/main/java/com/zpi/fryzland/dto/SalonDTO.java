@@ -15,4 +15,6 @@ public class SalonDTO {
     private String salonStreet;
     private String salonBuildingNumber;
     private String salonPostalCode;
+    private Double latitude;
+    private Double longitude;
 }

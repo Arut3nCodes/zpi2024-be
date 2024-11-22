@@ -31,4 +31,8 @@ public class SalonModel {
     @Pattern(regexp = "^[1-9]{2}-[1-9]{3}$")
     @Column(name = "KodPocztowyS", nullable = false)
     private String salonPostalCode;
+    @Column(name = "SzerokoscGeo", nullable = false)
+    private Double latitude;
+    @Column(name = "DlugoscGeo", nullable = false)
+    private Double longitude;
 }
