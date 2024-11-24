@@ -6,13 +6,14 @@ import com.zpi.fryzland.mapper.CustomerMapper;
 import com.zpi.fryzland.model.CustomerModel;
 import com.zpi.fryzland.service.CustomerService;
 import lombok.AllArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -32,6 +33,22 @@ public class CustomerController {
             else{
                 return ResponseEntity.notFound().build();
             }
+        } catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PostMapping("/getAllById")
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers(@RequestBody List<Integer> listOfCustomerId){
+        try{
+            if(!listOfCustomerId.isEmpty()){
+                List<CustomerDTO> listOfCustomers = customerService.getAllByCustomerIds(listOfCustomerId);
+                if(listOfCustomers.size() == listOfCustomerId.size()){
+                    return ResponseEntity.ok(listOfCustomers);
+                }
+            }
+            return ResponseEntity.notFound().build();
         } catch(Exception e){
             e.printStackTrace();
             return ResponseEntity.badRequest().build();

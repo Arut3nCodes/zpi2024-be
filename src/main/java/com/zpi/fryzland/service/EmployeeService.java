@@ -1,5 +1,7 @@
 package com.zpi.fryzland.service;
 
+import com.zpi.fryzland.dto.EmployeeDTO;
+import com.zpi.fryzland.mapper.EmployeeMapper;
 import com.zpi.fryzland.model.AssignmentToSalonModel;
 import com.zpi.fryzland.model.CustomerModel;
 import com.zpi.fryzland.model.EmployeeModel;
@@ -19,6 +21,7 @@ import java.util.Optional;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
+    private final EmployeeMapper employeeMapper;
     private final PasswordEncoder passwordEncoder;
 
     public Optional<EmployeeModel> getByEmployeeEmail(String employeeEmail){
@@ -51,6 +54,10 @@ public class EmployeeService {
                 .map(AssignmentToSalonModel::getEmployeeModel)
                 .distinct()
                 .toList();
+    }
+
+    public List<EmployeeDTO> getAllEmployeesByIds(List<Integer> employeeIds){
+        return employeeMapper.allToDTO(employeeRepository.findAllById(employeeIds));
     }
 
     public boolean passwordChange(int employeeID, String password){
