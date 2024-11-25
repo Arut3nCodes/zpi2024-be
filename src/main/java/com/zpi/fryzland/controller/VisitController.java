@@ -1,5 +1,6 @@
 package com.zpi.fryzland.controller;
 
+import com.zpi.fryzland.dto.VisitWithIdsDTO;
 import com.zpi.fryzland.service.VisitService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -60,4 +61,26 @@ public class VisitController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/withIds/forEmployee/{employeeID}")
+    public ResponseEntity<List<VisitWithIdsDTO>> getAllVisitsWithIdsByEmployeeID(@PathVariable int employeeID){
+        try{
+            List<VisitWithIdsDTO> visitList = visitService.getAllVisitsWithIdsForEmployee(employeeID);
+            return ResponseEntity.ok(visitList);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("withIds/forCustomer/{customerID}")
+    public ResponseEntity<List<VisitWithIdsDTO>> getAllVisitsWithIdsByCustomerID(@PathVariable int customerID){
+        try {
+            List<VisitWithIdsDTO> visitList = visitService.getAllVisitsWithIdsForCustomer(customerID);
+            return ResponseEntity.ok(visitList);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+
 }

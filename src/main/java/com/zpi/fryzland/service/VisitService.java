@@ -1,5 +1,6 @@
 package com.zpi.fryzland.service;
 
+import com.zpi.fryzland.dto.VisitWithIdsDTO;
 import com.zpi.fryzland.model.VisitModel;
 import com.zpi.fryzland.repository.VisitRepository;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,20 @@ public class VisitService {
 
     public void deleteVisitById(int id){
         repository.deleteById(id);
+    }
+
+    public List<VisitWithIdsDTO> getAllVisitsWithIdsForCustomer(int customerID){
+        return getAllVisitsByCustomerID(customerID)
+                .stream()
+                .map(visitModel -> new VisitWithIdsDTO(visitModel))
+                .toList();
+    }
+
+    public List<VisitWithIdsDTO> getAllVisitsWithIdsForEmployee(int employeeID){
+        return getAllVisitsByEmployeeID(employeeID)
+                .stream()
+                .map(visitModel -> new VisitWithIdsDTO(visitModel))
+                .toList();
     }
 
 }

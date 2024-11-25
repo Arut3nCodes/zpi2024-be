@@ -38,4 +38,6 @@ public class ServicesIncludedInTheVisitController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+//    @GetMapping("/forVisit")
 }
