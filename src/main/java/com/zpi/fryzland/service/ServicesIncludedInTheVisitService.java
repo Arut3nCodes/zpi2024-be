@@ -45,12 +45,18 @@ public class ServicesIncludedInTheVisitService{
     }
 
     public List<ServicesIncludedInTheVisitModel> getAllConnectionsByEmployeeId(int employeeID){
-        return getAllConnectionsByVisitId(employeeID);
+        return repository.getAllByVisitModel_AssigmentModel_EmployeeModel_EmployeeID(employeeID);
     }
 
     public List<ServicesIncludedInTheVisitDTO> getAllDtoConnectionsByEmployeeId(int employeeID){
         return mapper.allToDTO(
                 getAllConnectionsByEmployeeId(employeeID)
         );
+    }
+
+    public List<ServiceModel> getAllServicesByVisitModel(VisitModel visitModel) {
+        return repository.getAllByVisitModel(visitModel).stream()
+                .map(model -> model.getServiceModel())
+                .toList();
     }
 }
