@@ -23,12 +23,12 @@ import java.util.Date;
 @FutureOrPresentDateAndTime
 public class TimeSlotModel {
     @Id
-    @FutureOrPresent
     @Column(name="DataO", nullable = false)
     private LocalDate timeSlotDate;
     @Id
     @Column(name="GodzinaO", nullable = false)
     private LocalTime timeSlotTime;
+    @Id
     @ManyToOne
     @JoinColumn(name="PracownikID", nullable = false)
     private EmployeeModel employeeModel;

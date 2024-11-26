@@ -16,4 +16,5 @@ import java.util.Date;
 public class TimeSlotKey implements Serializable {
     private LocalDate timeSlotDate;
     private LocalTime timeSlotTime;
+    private Integer employeeModel;
 }
