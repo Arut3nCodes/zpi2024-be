@@ -35,7 +35,7 @@ public class VisitModel {
     @Column(name="StatusW", nullable = false)
     private VisitStatus visitStatus;
     @ManyToOne
-    @JoinColumn(name="PrzydziałDoSalonuID")
+    @JoinColumn(name="PrzydzialDoSalonuID")
     private AssignmentToSalonModel assigmentModel;
     @ManyToOne
     @JoinColumn(name="KlientID")
