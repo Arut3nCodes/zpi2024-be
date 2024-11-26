@@ -4,13 +4,13 @@ import com.zpi.fryzland.dto.ServiceDTO;
 import com.zpi.fryzland.mapper.ServiceMapper;
 import com.zpi.fryzland.model.ServiceModel;
 import com.zpi.fryzland.service.ServiceService;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -32,5 +32,18 @@ public class ServiceController {
         }
     }
 
-    //@GetMapping("/byVisit/{visitID}")
+    @PostMapping("/getAllById")
+    public ResponseEntity<List<ServiceDTO>> getAllServicesByListOfIds(@RequestBody @NotEmpty List<Integer> listOfServiceIds){
+        try{
+            List<ServiceDTO> listOfServices = mapper.allToDTO(service.getAllServicesByIds(listOfServiceIds));
+            if(!listOfServices.isEmpty()){
+                return ResponseEntity.ok(listOfServices);
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

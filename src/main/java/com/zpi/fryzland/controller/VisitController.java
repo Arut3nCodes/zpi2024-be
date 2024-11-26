@@ -72,7 +72,7 @@ public class VisitController {
         }
     }
 
-    @GetMapping("withIds/forCustomer/{customerID}")
+    @GetMapping("/withIds/forCustomer/{customerID}")
     public ResponseEntity<List<VisitWithIdsDTO>> getAllVisitsWithIdsByCustomerID(@PathVariable int customerID){
         try {
             List<VisitWithIdsDTO> visitList = visitService.getAllVisitsWithIdsForCustomer(customerID);
