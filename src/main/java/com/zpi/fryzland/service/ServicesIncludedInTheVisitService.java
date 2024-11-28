@@ -53,10 +53,4 @@ public class ServicesIncludedInTheVisitService{
                 getAllConnectionsByEmployeeId(employeeID)
         );
     }
-
-    public List<ServiceModel> getAllServicesByVisitModel(VisitModel visitModel) {
-        return repository.getAllByVisitModel(visitModel).stream()
-                .map(model -> model.getServiceModel())
-                .toList();
-    }
 }

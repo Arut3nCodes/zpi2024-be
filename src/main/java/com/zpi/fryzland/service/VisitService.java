@@ -57,4 +57,8 @@ public class VisitService {
                 .toList();
     }
 
+    public List<VisitModel> getAllVisitsByAssignmentToSalonID(int assignmentToSalonID){
+        return repository.getAllByAssigmentModel_AssignmentID(assignmentToSalonID);
+    }
+
 }

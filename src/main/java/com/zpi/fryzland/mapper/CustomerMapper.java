@@ -2,13 +2,16 @@ package com.zpi.fryzland.mapper;
 
 import com.zpi.fryzland.dto.CustomerDTO;
 import com.zpi.fryzland.model.CustomerModel;
+import com.zpi.fryzland.service.ServiceCategoryService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-//todo: Zrobić coś z tym nullem na pozycji ServiceCategoryModel w toModel() w customerModel
 @Component
+@AllArgsConstructor
 public class CustomerMapper implements Mapper<CustomerModel, CustomerDTO>{
 
-    //todo: Po ukończeniu serviceCategoryService uzupełnić customerModel
+    private final ServiceCategoryService serviceCategoryService;
+
     @Override
     public CustomerModel toModel(CustomerDTO dto, boolean withId){
         return new CustomerModel(
@@ -18,7 +21,7 @@ public class CustomerMapper implements Mapper<CustomerModel, CustomerDTO>{
                 dto.getCustomerDialNumber(),
                 dto.getEncryptedCustomerPassword(),
                 dto.getCustomerEmail(),
-                null
+                dto.getServiceCategoryID() != null ? serviceCategoryService.getCategoryById(dto.getServiceCategoryID()).orElse(null) : null
         );
     }
 

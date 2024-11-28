@@ -4,6 +4,7 @@ import com.zpi.fryzland.dto.CustomerDTO;
 import com.zpi.fryzland.mapper.CustomerMapper;
 import com.zpi.fryzland.model.CustomerModel;
 import com.zpi.fryzland.model.EmployeeModel;
+import com.zpi.fryzland.model.ServiceCategoryModel;
 import com.zpi.fryzland.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.swing.text.html.Option;
+import java.util.List;
 import java.util.Optional;
 import java.util.List;
 
@@ -50,8 +52,8 @@ public class CustomerService {
         customerRepository.delete(customerModel);
     }
 
-    public void editCustomer(int id, CustomerModel customerModel){
-        throw new UnsupportedOperationException();
+    public void editCustomer(CustomerModel customerModel){
+        customerRepository.save(customerModel);
     }
 
     public boolean passwordChange(int customerID, String password){
@@ -67,5 +69,9 @@ public class CustomerService {
         else{
             return false;
         }
+    }
+
+    public List<CustomerModel> getAllCustomersWithSetServiceCategory(ServiceCategoryModel serviceCategoryModel){
+        return customerRepository.findAllByServiceCategoryModel(serviceCategoryModel);
     }
 }

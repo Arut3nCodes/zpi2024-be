@@ -14,4 +14,5 @@ public interface VisitRepository extends JpaRepository<VisitModel, Integer> {
     public Optional<VisitModel> getAllByVisitDateBetween(LocalDate beforeDate, LocalDate afterDate);
     public List<VisitModel> getAllByCustomerModel_CustomerID(Integer customerID);
     public List<VisitModel> getAllByAssigmentModel_EmployeeModel_EmployeeID(Integer employeeID);
+    public List<VisitModel> getAllByAssigmentModel_AssignmentID(Integer assignmentID);
 }

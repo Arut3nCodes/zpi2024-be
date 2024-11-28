@@ -13,4 +13,5 @@ import java.util.List;
 public interface EmployeeQualificationsRepository extends JpaRepository<EmployeeQualificationModel, Integer> {
     List<EmployeeQualificationModel> getAllByEmployeeModel(EmployeeModel employeeModel);
     List<EmployeeQualificationModel> getAllByEmployeeModelInAndServiceCategoryModelIn(List<EmployeeModel> employeeModelList, List<ServiceCategoryModel> serviceCategoryModelList);
+    List<EmployeeQualificationModel> getAllByServiceCategoryModel_ServiceCategoryId(int id);
 }

@@ -36,6 +36,10 @@ public class OpeningHoursService {
         repository.deleteById(id);
     }
 
+    public void updateOpeningHours(OpeningHoursModel openingHoursModel){
+        repository.save(openingHoursModel);
+    }
+
     public List<OpeningHoursModel> getAllOpeningHoursBySalonModel(SalonModel salonModel){
         return repository.getAllBySalonModel(salonModel);
     }

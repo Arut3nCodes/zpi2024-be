@@ -26,7 +26,7 @@ public class TimeSlotModel {
     @Column(name="DataO", nullable = false)
     private LocalDate timeSlotDate;
     @Id
-    @Column(name="GodzinaO", nullable = false)
+    @Column(name="GodzinaO", nullable = false, columnDefinition = "TIME(0)")
     private LocalTime timeSlotTime;
     @Id
     @ManyToOne

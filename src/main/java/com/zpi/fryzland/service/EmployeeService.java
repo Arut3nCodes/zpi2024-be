@@ -7,6 +7,7 @@ import com.zpi.fryzland.model.CustomerModel;
 import com.zpi.fryzland.model.EmployeeModel;
 import com.zpi.fryzland.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.repository.support.Repositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +33,8 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
-    //todo: Zaimplementować metodę getAllEmployees()
     public List<EmployeeModel> getAllEmployees(){
-        throw new UnsupportedOperationException();
+        return employeeRepository.findAll();
     }
 
     public EmployeeModel addEmployee(EmployeeModel employeeModel){

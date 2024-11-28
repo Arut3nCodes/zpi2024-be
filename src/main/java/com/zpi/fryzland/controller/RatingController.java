@@ -2,6 +2,7 @@ package com.zpi.fryzland.controller;
 
 import com.zpi.fryzland.dto.RatingAverageDTO;
 import com.zpi.fryzland.dto.RatingDTO;
+import com.zpi.fryzland.dto.ServiceCategoryDTO;
 import com.zpi.fryzland.mapper.RatingMapper;
 import com.zpi.fryzland.mapper.SalonMapper;
 import com.zpi.fryzland.model.RatingModel;
@@ -124,6 +125,21 @@ public class RatingController {
         }
         catch(Exception e) {
             e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<RatingDTO>> getAllRatings(){
+        try{
+            List<RatingDTO> listOfRatings = mapper.allToDTO(service.getAllRatings());
+            if(!listOfRatings.isEmpty()){
+                return ResponseEntity.ok(listOfRatings);
+            }
+            else{
+                return ResponseEntity.noContent().build();
+            }
+        }catch(Exception e){
             return ResponseEntity.badRequest().build();
         }
     }
