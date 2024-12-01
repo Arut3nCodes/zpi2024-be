@@ -18,5 +18,7 @@ public interface AssignmentToSalonRepository extends JpaRepository<AssignmentToS
     List<AssignmentToSalonModel> findAllBySalonModelAndAssignmentDate(SalonModel salonModel, LocalDate date);
     List<AssignmentToSalonModel> findAllBySalonModel (SalonModel salonModel);
     List<AssignmentToSalonModel> findAllBySalonModelAndEmployeeModel(SalonModel salonModel, EmployeeModel employeeModel);
+
+    List<AssignmentToSalonModel> findAllBySalonModelAndEmployeeModelAndAssignmentDateBefore(SalonModel salonModel, EmployeeModel employeeModel, @FutureOrPresent LocalDate assignmentDate);
     Optional<AssignmentToSalonModel> findAssignmentToSalonModelBySalonModelAndEmployeeModelAndAssignmentDate(SalonModel salonModel, EmployeeModel employeeModel, @FutureOrPresent LocalDate assignmentDate);
 }

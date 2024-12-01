@@ -21,7 +21,7 @@ public class VisitWithIdsDTO {
     public VisitWithIdsDTO(VisitModel visitModel){
         this.visitID = visitModel.getVisitID();
         this.visitDate = visitModel.getVisitDate();
-        this.visitStartTime = visitModel.getVisitStartDate();
+        this.visitStartTime = visitModel.getVisitStartTime();
         this.visitStatus = visitModel.getVisitStatus().getValue();
         this.salonID = visitModel.getAssigmentModel().getSalonModel().getSalonID();
         this.employeeID = visitModel.getAssigmentModel().getEmployeeModel().getEmployeeID();

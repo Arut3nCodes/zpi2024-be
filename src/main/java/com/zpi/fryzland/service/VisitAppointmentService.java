@@ -83,6 +83,29 @@ public class VisitAppointmentService {
         }
     }
 
+    public List<TimeSlotDTO> getAllTimeSlotsForEmployeeBeforeDateInSalon(int employeeId, int salonId, LocalDate date){
+        Optional<EmployeeModel> optionalEmployeeModel = employeeService.getEmployeeById(employeeId);
+        Optional<SalonModel> optionalSalonModel = salonService.getSalonById(salonId);
+        if(optionalEmployeeModel.isPresent() && optionalSalonModel.isPresent()){
+            List<LocalDate> datesOfAssignmentToSalon = assignmentService.findAllAssignmentsForSalonAndEmployeeBeforeDate(
+                    optionalSalonModel.get(),
+                    optionalEmployeeModel.get(),
+                    LocalDate.now().plusDays(14)
+            ).stream()
+                    .map(model -> model.getAssignmentDate())
+                    .toList();
+
+            return timeSlotService.getAllTimeSlotsByEmployeeBeforeDate(optionalEmployeeModel.get(), date)
+                    .stream()
+                    .filter(timeSlotModel -> datesOfAssignmentToSalon.contains(timeSlotModel))
+                    .map(model -> timeSlotMapper.toDTO(model))
+                    .toList();
+        }
+        else{
+            return new ArrayList<>();
+        }
+    }
+
     public VisitModel makeAnAppointment(SaveVisitDTO visitDTO){
         try{
             AssignmentToSalonModel assignmentModel = assignmentService.findAssignmentByEmployeeAndSalonAndDate(
@@ -95,7 +118,7 @@ public class VisitAppointmentService {
                 long howManyTimeSlots = listOfServices.stream()
                         .mapToLong(model -> model.getServiceSpan())
                         .sum();
-                if (timeSlotService.checkIfNextTimeSlotsSinceTimeExist(assignmentModel.getEmployeeModel(), howManyTimeSlots, visitDTO.getVisitStartTime())) {
+                if (timeSlotService.checkIfNextTimeSlotsSinceTimeExist(assignmentModel.getEmployeeModel(), visitDTO.getVisitDate(), howManyTimeSlots, visitDTO.getVisitStartTime())) {
                     System.out.println(LocalTime.now());
                     timeSlotService.createAndSaveMultipleTimeslots(
                             assignmentModel.getEmployeeModel(),
@@ -134,5 +157,49 @@ public class VisitAppointmentService {
 
     public List<LocalDate> getAllDatesEmployeesAreAvailableOn(int salonId, int employeeId){
         return assignmentService.getAllAvailabilityDatesForAnEmployee(salonId, employeeId);
+    }
+
+    public boolean rescheduleVisit(int visitId, LocalDate rescheduledDate, LocalTime rescheduledTime) {
+        try{
+            Optional<VisitModel> optionalVisitModel = visitService.getVisitById(visitId);
+            if(optionalVisitModel.isPresent()){
+                VisitModel visitModel = optionalVisitModel.get();
+                List<ServiceModel> listOfServices = serviceIncludedService.getAllServicesByVisitModel(visitModel);
+                AssignmentToSalonModel assignmentModel = visitModel.getAssigmentModel();
+                if (assignmentModel != null && !listOfServices.isEmpty() && visitModel.getCustomerModel() != null) {
+                    long howManyTimeSlots = listOfServices.stream()
+                            .mapToLong(model -> model.getServiceSpan())
+                            .sum();
+                    if (timeSlotService.checkIfNextTimeSlotsFromTimeExistExcludingCurrentVisitSlots(
+                            assignmentModel.getEmployeeModel(), howManyTimeSlots, rescheduledDate, rescheduledTime, visitModel.getVisitDate(), visitModel.getVisitStartTime())
+                    ){
+                        System.out.println(LocalTime.now());
+                        timeSlotService.deleteMultipleTimeslots(
+                                assignmentModel.getEmployeeModel(),
+                                visitModel.getVisitDate(),
+                                visitModel.getVisitStartTime()
+                        );
+                        timeSlotService.createAndSaveMultipleTimeslots(
+                                assignmentModel.getEmployeeModel(),
+                                visitModel.getVisitDate(),
+                                visitModel.getVisitStartTime(),
+                                howManyTimeSlots
+                        );
+                    } else {
+                        System.out.println("Something failed");
+                        return false;
+                    }
+
+                    visitModel = visitService.updateModel(visitModel);
+                    return visitModel != null;
+
+                }
+                return false;
+            }
+            return false;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

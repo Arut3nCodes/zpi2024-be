@@ -1,5 +1,6 @@
 package com.zpi.fryzland.model.compositekey;
 
+import com.zpi.fryzland.model.EmployeeModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,5 @@ import java.util.Date;
 public class TimeSlotKey implements Serializable {
     private LocalDate timeSlotDate;
     private LocalTime timeSlotTime;
+    private EmployeeModel employeeModel;
 }

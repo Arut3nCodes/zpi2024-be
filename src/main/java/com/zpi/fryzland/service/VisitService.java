@@ -31,6 +31,14 @@ public class VisitService {
         return repository.getAllByAssigmentModel_EmployeeModel_EmployeeID(employeeID);
     }
 
+    public VisitModel updateModel(VisitModel visitModel){
+        Optional<VisitModel> optionalVisitModel = getVisitById(visitModel.getVisitID());
+        if(optionalVisitModel.isPresent()){
+            addVisit(optionalVisitModel.get());
+        }
+        return null;
+    }
+
     public List<VisitModel> getAllVisits(){
         return repository.findAll();
     }
