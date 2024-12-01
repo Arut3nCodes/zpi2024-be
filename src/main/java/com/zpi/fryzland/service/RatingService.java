@@ -30,6 +30,10 @@ public class RatingService{
         return repository.getAllByVisitModel_AssigmentModel_SalonModel_SalonID(id);
     }
 
+    public List<RatingModel> getAllRatingsByCustomerId(int id){
+        return repository.getAllByVisitModel_CustomerModel_CustomerID(id);
+    }
+
     public RatingModel editRating(RatingModel ratingModel){
         throw new UnsupportedOperationException();
     }
@@ -57,8 +61,6 @@ public class RatingService{
                 .average()
                 .orElseThrow(NoSuchElementException::new);
     }
-
-
 
 
 }
