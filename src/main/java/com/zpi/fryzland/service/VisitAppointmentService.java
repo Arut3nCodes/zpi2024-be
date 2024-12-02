@@ -115,7 +115,7 @@ public class VisitAppointmentService {
             Optional<CustomerModel> customerModel = customerService.findCustomerById(visitDTO.getCustomerID());
 
             if (assignmentModel != null && listOfServices.size() == visitDTO.getServiceIDList().size() && customerModel.isPresent()) {
-                if(assignmentModel.getAssignmentDate() != visitDTO.getVisitDate()){
+                if(!assignmentModel.getAssignmentDate().equals(visitDTO.getVisitDate())){
                     System.out.println("Wrong assignment date");
                     return null;
                 }
