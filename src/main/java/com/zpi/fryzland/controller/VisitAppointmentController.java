@@ -101,15 +101,15 @@ public class VisitAppointmentController {
     }
 
     @PatchMapping("/reschedule-visit/{visitId}")
-    public ResponseEntity<HttpStatus> rescheduleVisit(@PathVariable int visitId, @RequestBody RescheduleDTO dto){
-        try{
-            if(visitAppointmentService.rescheduleVisit(visitId, dto.getRescheduleDate(), dto.getRescheduleTime())){
-                return ResponseEntity.noContent().build();
+    public ResponseEntity<HttpStatus> rescheduleVisit(@PathVariable int visitId, @RequestBody RescheduleDTO dto) {
+        try {
+            if ((dto.getUserRole() == 'C' && dto.getUserID() != null) || dto.getUserRole() == 'E') {
+                if (visitAppointmentService.rescheduleVisit(dto.getUserRole(), dto.getUserID(), visitId, dto.getRescheduleDate(), dto.getRescheduleTime())) {
+                    return ResponseEntity.noContent().build();
+                }
             }
-            else{
-                return ResponseEntity.status(HttpStatus.CONFLICT).build();
-            }
-        } catch(Exception e){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }

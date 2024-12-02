@@ -13,6 +13,7 @@ import com.zpi.fryzland.validators.OpeningHours;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.Role;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -184,17 +185,33 @@ public class VisitAppointmentService {
         return assignmentService.getAllAvailabilityDatesForAnEmployee(salonId, employeeId);
     }
 
-    public boolean rescheduleVisit(int visitId, LocalDate rescheduledDate, LocalTime rescheduledTime) {
+    public boolean rescheduleVisit(char userRole, Integer userID, int visitId, LocalDate rescheduledDate, LocalTime rescheduledTime) {
         try{
             Optional<VisitModel> optionalVisitModel = visitService.getVisitById(visitId);
             if(optionalVisitModel.isPresent()){
                 VisitModel visitModel = optionalVisitModel.get();
                 List<ServiceModel> listOfServices = serviceIncludedService.getAllServicesByVisitModel(visitModel);
                 AssignmentToSalonModel assignmentModel = visitModel.getAssigmentModel();
-                if (assignmentModel != null && !listOfServices.isEmpty() && visitModel.getCustomerModel() != null) {
+                if (assignmentModel != null && !listOfServices.isEmpty() && visitModel.getCustomerModel() != null && ((visitModel.getCustomerModel().getCustomerID() == userID.intValue() && userRole == 'C') || userRole == 'E')) {
                     long howManyTimeSlots = listOfServices.stream()
                             .mapToLong(model -> model.getServiceSpan())
                             .sum();
+                    List<VisitModel> allVisitsForCustomer = visitService.getAllVisitsAtDateByCustomerID(rescheduledDate, visitModel.getCustomerModel().getCustomerID())
+                                    .stream()
+                                    .filter(model -> model.getVisitID() != visitId)
+                                    .toList();
+                    for(VisitModel visit : allVisitsForCustomer){
+                        if(visit != visitModel) {
+                            long howManyTimeSlotsForVisit = serviceIncludedService.getAllServicesByVisitModel(visit).stream()
+                                    .mapToLong(model -> model.getServiceSpan())
+                                    .sum();
+                            if (timeSlotService.checkIfAnyOfTheTimeSlotsInVisitAreCollidingWithPlanned(visit.getAssigmentModel().getEmployeeModel(), rescheduledDate,
+                                    howManyTimeSlotsForVisit, visit.getVisitStartTime(), howManyTimeSlots, rescheduledTime)) {
+                                System.out.println("Collides with other customer visits");
+                                return false;
+                            }
+                        }
+                    }
                     if (timeSlotService.checkIfNextTimeSlotsFromTimeExistExcludingCurrentVisitSlots(
                             assignmentModel.getEmployeeModel(), howManyTimeSlots, rescheduledDate, rescheduledTime, visitModel.getVisitDate(), visitModel.getVisitStartTime())
                     ){
@@ -207,15 +224,16 @@ public class VisitAppointmentService {
                         );
                         timeSlotService.createAndSaveMultipleTimeslots(
                                 assignmentModel.getEmployeeModel(),
-                                visitModel.getVisitDate(),
-                                visitModel.getVisitStartTime(),
+                                rescheduledDate,
+                                rescheduledTime,
                                 howManyTimeSlots
                         );
                     } else {
-                        System.out.println("Something failed");
+                        System.out.println("timeslots failed");
                         return false;
                     }
-
+                    visitModel.setVisitDate(rescheduledDate);
+                    visitModel.setVisitStartTime(rescheduledTime);
                     visitModel = visitService.updateModel(visitModel);
                     return visitModel != null;
 

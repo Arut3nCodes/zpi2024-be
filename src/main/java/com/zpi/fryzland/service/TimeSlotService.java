@@ -2,6 +2,7 @@ package com.zpi.fryzland.service;
 
 import com.zpi.fryzland.model.EmployeeModel;
 import com.zpi.fryzland.model.TimeSlotModel;
+import com.zpi.fryzland.model.VisitModel;
 import com.zpi.fryzland.model.compositekey.TimeSlotKey;
 import com.zpi.fryzland.repository.TimeSlotRepository;
 import lombok.AllArgsConstructor;
@@ -72,7 +73,7 @@ public class TimeSlotService {
                 currentTime.plusMinutes((amountOfTimeSlots - 1L) * 15L)
         );
 
-        return listOfTimeSlotsForRescheduled.stream().filter(timeSlot -> listOfCurrentTimeSlots.contains(timeSlot)).toList().isEmpty();
+        return listOfTimeSlotsForRescheduled.stream().filter(timeSlot -> !listOfCurrentTimeSlots.contains(timeSlot)).toList().isEmpty();
 
     }
 
