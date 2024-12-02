@@ -111,7 +111,7 @@ public class RatingController {
         }
     }
 
-    @GetMapping("/avgForSalon/{employeeID}")
+    @GetMapping("/avgForEmployee/{employeeID}")
     public ResponseEntity<RatingAverageDTO> getAverageRatingForEmployee(@PathVariable int employeeID){
         try{
             float averageRating = service.calculateAverageRatingForEmployeeById(employeeID);

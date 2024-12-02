@@ -47,7 +47,7 @@ public class RatingService{
                 .stream()
                 .mapToDouble(ratingModel -> ratingModel.getRatingValue())
                 .average()
-                .orElseThrow(NoSuchElementException::new);
+                .orElse(0.0);
     }
 
     public float calculateAverageRatingForSalonById(int id){
@@ -55,10 +55,6 @@ public class RatingService{
                 .stream()
                 .mapToDouble(ratingModel -> ratingModel.getRatingValue())
                 .average()
-                .orElseThrow(NoSuchElementException::new);
+                .orElse(0.0);
     }
-
-
-
-
 }
