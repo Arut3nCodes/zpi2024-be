@@ -65,4 +65,12 @@ public class ServicesIncludedInTheVisitService{
                 .map(model -> model.getServiceModel())
                 .toList();
     }
+
+    public List<ServicesIncludedInTheVisitModel> getAllConnectionsBySalonId(int salonID){
+        return repository.getAllByVisitModel_AssigmentModel_SalonModel_SalonID(salonID);
+    }
+
+    public List<ServicesIncludedInTheVisitDTO> getAllDtoConnectionsBySalonId(int salonID){
+        return mapper.allToDTO(getAllConnectionsBySalonId(salonID));
+    }
 }

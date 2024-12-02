@@ -49,4 +49,15 @@ public class ServicesIncludedInTheVisitController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/forSalon/{id}")
+    public ResponseEntity<List<ServicesIncludedInTheVisitDTO>> getAllForSalon(@PathVariable int id){
+        try{
+            List<ServicesIncludedInTheVisitDTO> listOfServices = service.getAllDtoConnectionsBySalonId(id);
+            return ResponseEntity.ok(listOfServices);
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
