@@ -29,6 +29,7 @@ public class TimeSlotModel {
     @Id
     @Column(name="GodzinaO", nullable = false)
     private LocalTime timeSlotTime;
+    @Id
     @ManyToOne
     @JoinColumn(name="PracownikID", nullable = false)
     private EmployeeModel employeeModel;

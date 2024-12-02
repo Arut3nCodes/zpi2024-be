@@ -16,5 +16,5 @@ import java.util.List;
 public interface TimeSlotRepository extends JpaRepository<TimeSlotModel, TimeSlotKey> {
     List<TimeSlotModel> getAllByEmployeeModelAndTimeSlotDateBefore(EmployeeModel employeeModel, LocalDate beforeDate);
     List<TimeSlotModel> getAllByEmployeeModelAndTimeSlotDateAndTimeSlotTimeGreaterThanEqualAndTimeSlotTimeLessThanEqual(EmployeeModel employeeModel, LocalDate visitDate, LocalTime startTime, LocalTime endTime);
-    void deleteAllByEmployeeModelAndTimeSlotDateAndTimeSlotTimeIsAfterAndTimeSlotTimeIsBefore(EmployeeModel employeeModel, LocalDate timeSlotDate, LocalTime timeSlotTimeAfter, LocalTime timeSlotTimeBefore);
+    void deleteAllByEmployeeModelAndTimeSlotDateAndTimeSlotTimeIsGreaterThanEqualAndTimeSlotTimeIsLessThanEqual(EmployeeModel employeeModel, LocalDate timeSlotDate, LocalTime timeSlotTimeAfter, LocalTime timeSlotTimeBefore);
 }

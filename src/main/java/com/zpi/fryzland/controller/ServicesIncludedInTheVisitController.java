@@ -4,9 +4,9 @@ import com.zpi.fryzland.dto.ServicesIncludedInTheVisitDTO;
 import com.zpi.fryzland.mapper.ServicesIncludedInTheVisitMapper;
 import com.zpi.fryzland.service.ServicesIncludedInTheVisitService;
 import lombok.AllArgsConstructor;
+import org.hibernate.service.Service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,5 +39,14 @@ public class ServicesIncludedInTheVisitController {
         }
     }
 
-//    @GetMapping("/forVisit")
+    @GetMapping("/forVisit/{id}")
+    public ResponseEntity<List<ServicesIncludedInTheVisitDTO>> getAllForVisit(@PathVariable int id){
+        try{
+            List<ServicesIncludedInTheVisitDTO> listOfServices = service.getAllDtoConnectionsByVisitId(id);
+            return ResponseEntity.ok(listOfServices);
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }

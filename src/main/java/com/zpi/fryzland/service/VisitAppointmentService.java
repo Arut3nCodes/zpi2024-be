@@ -141,13 +141,23 @@ public class VisitAppointmentService {
                 );
 
                 visitModel = visitService.addVisit(visitModel);
+
                 if (visitModel != null) {
+                    System.out.println("works saving visit");
                     List<ServicesIncludedInTheVisitModel> serviceIncludedList = serviceIncludedService.saveAllServiceVisitConnections(listOfServices, visitModel);
                     if (serviceIncludedList.size() == listOfServices.size()) {
                         return visitModel;
                     }
                 }
+                timeSlotService.deleteMultipleTimeslots(
+                        assignmentModel.getEmployeeModel(),
+                        visitDTO.getVisitDate(),
+                        visitDTO.getVisitStartTime(),
+                        howManyTimeSlots
+                );
             }
+            System.out.println("saving visit doesn't work");
+
             return null;
         }catch(Exception e){
             e.printStackTrace();
@@ -177,7 +187,8 @@ public class VisitAppointmentService {
                         timeSlotService.deleteMultipleTimeslots(
                                 assignmentModel.getEmployeeModel(),
                                 visitModel.getVisitDate(),
-                                visitModel.getVisitStartTime()
+                                visitModel.getVisitStartTime(),
+                                howManyTimeSlots
                         );
                         timeSlotService.createAndSaveMultipleTimeslots(
                                 assignmentModel.getEmployeeModel(),

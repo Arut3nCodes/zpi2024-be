@@ -43,7 +43,7 @@ public class TimeSlotService {
                 employeeModel,
                 visitDate,
                 startTime,
-                startTime.minusMinutes((amountOfTimeSlots - 1L) * 15L)
+                startTime.plusMinutes((amountOfTimeSlots - 1L) * 15L)
         ).isEmpty();
     }
 
@@ -77,7 +77,7 @@ public class TimeSlotService {
         return repository.saveAll(timeSlotToSaveList);
     }
 
-    public void deleteMultipleTimeslots(EmployeeModel employeeModel, LocalDate visitDate, LocalTime visitStartTime) {
-
+    public void deleteMultipleTimeslots(EmployeeModel employeeModel, LocalDate visitDate, LocalTime visitStartTime, long amountOfTimeSlots) {
+        repository.deleteAllByEmployeeModelAndTimeSlotDateAndTimeSlotTimeIsGreaterThanEqualAndTimeSlotTimeIsLessThanEqual(employeeModel, visitDate, visitStartTime, visitStartTime.plusMinutes((amountOfTimeSlots-1) * 15));
     }
 }

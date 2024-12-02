@@ -34,6 +34,12 @@ public class ServicesIncludedInTheVisitService{
         return repository.getAllByVisitModel_VisitID(visitID);
     }
 
+    public List<ServicesIncludedInTheVisitDTO> getAllDtoConnectionsByVisitId(int visitID){
+        return mapper.allToDTO(
+                getAllConnectionsByVisitId(visitID)
+        );
+    }
+
     public List<ServicesIncludedInTheVisitModel> getAllConnectionsByCustomerId(int customerID){
         return repository.getAllByVisitModel_CustomerModel_CustomerID(customerID);
     }
