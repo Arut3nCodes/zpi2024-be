@@ -47,6 +47,16 @@ public class TimeSlotService {
         ).isEmpty();
     }
 
+    public boolean checkIfAnyOfTheTimeSlotsInVisitAreCollidingWithPlanned(EmployeeModel employeeModel, LocalDate visitDate, long amountOfTimeSlots, LocalTime startTime, long amountOfTimeSlotsForPlannedVisit, LocalTime startTimeOfPlannedVisit){
+        LocalTime endTimeOfPlannedVisit = startTimeOfPlannedVisit.plusMinutes((amountOfTimeSlotsForPlannedVisit-1) * 15);
+        List<TimeSlotModel> listOfTimeSlots = repository.getAllByEmployeeModelAndTimeSlotDateAndTimeSlotTimeGreaterThanEqualAndTimeSlotTimeLessThanEqual(employeeModel, visitDate, startTime, startTime.plusMinutes((amountOfTimeSlots-1) * 15));
+        List<TimeSlotModel> afterFilter = listOfTimeSlots.stream()
+                .filter(timeSlotModel -> (timeSlotModel.getTimeSlotTime().equals(startTimeOfPlannedVisit) || timeSlotModel.getTimeSlotTime().isAfter(startTimeOfPlannedVisit)) &&
+                        (timeSlotModel.getTimeSlotTime().equals(endTimeOfPlannedVisit) || timeSlotModel.getTimeSlotTime().isBefore(endTimeOfPlannedVisit)))
+                .toList();
+        return !afterFilter.isEmpty();
+    }
+
     public boolean checkIfNextTimeSlotsFromTimeExistExcludingCurrentVisitSlots(EmployeeModel employeeModel,  long amountOfTimeSlots, LocalDate visitDate, LocalTime startTime, LocalDate currentDate, LocalTime currentTime){
         List<TimeSlotModel> listOfTimeSlotsForRescheduled =  repository.getAllByEmployeeModelAndTimeSlotDateAndTimeSlotTimeGreaterThanEqualAndTimeSlotTimeLessThanEqual(
                 employeeModel,

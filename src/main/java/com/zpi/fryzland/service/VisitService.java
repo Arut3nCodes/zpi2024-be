@@ -6,6 +6,7 @@ import com.zpi.fryzland.repository.VisitRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,10 @@ public class VisitService {
 
     public List<VisitModel> getAllVisitsByCustomerID(int customerID){
         return repository.getAllByCustomerModel_CustomerID(customerID);
+    }
+
+    public List<VisitModel> getAllVisitsAtDateByCustomerID(LocalDate date, int customerID){
+        return repository.getAllByCustomerModel_CustomerIDAndVisitDate(customerID, date);
     }
 
     public List<VisitModel> getAllVisitsByEmployeeID(int employeeID){

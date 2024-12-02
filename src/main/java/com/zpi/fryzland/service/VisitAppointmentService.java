@@ -118,6 +118,18 @@ public class VisitAppointmentService {
                 long howManyTimeSlots = listOfServices.stream()
                         .mapToLong(model -> model.getServiceSpan())
                         .sum();
+                List<VisitModel> allVisitsForCustomer = visitService.getAllVisitsAtDateByCustomerID(visitDTO.getVisitDate(), visitDTO.getCustomerID());
+                for(VisitModel visit : allVisitsForCustomer){
+                    long howManyTimeSlotsForVisit = serviceIncludedService.getAllServicesByVisitModel(visit).stream()
+                            .mapToLong(model -> model.getServiceSpan())
+                            .sum();
+                    if(timeSlotService.checkIfAnyOfTheTimeSlotsInVisitAreCollidingWithPlanned(visit.getAssigmentModel().getEmployeeModel(), visit.getVisitDate(),
+                                howManyTimeSlotsForVisit, visit.getVisitStartTime(), howManyTimeSlots, visitDTO.getVisitStartTime())){
+                            System.out.println("Collides with other customer visits");
+                            return null;
+                    }
+                }
+
                 if (timeSlotService.checkIfNextTimeSlotsSinceTimeExist(assignmentModel.getEmployeeModel(), visitDTO.getVisitDate(), howManyTimeSlots, visitDTO.getVisitStartTime())) {
                     System.out.println(LocalTime.now());
                     timeSlotService.createAndSaveMultipleTimeslots(
@@ -127,7 +139,7 @@ public class VisitAppointmentService {
                             howManyTimeSlots
                     );
                 } else {
-                    System.out.println("Something failed");
+                    System.out.println("timeslots failed");
                     return null;
                 }
 
@@ -164,7 +176,6 @@ public class VisitAppointmentService {
             return null;
         }
     }
-
     public List<LocalDate> getAllDatesEmployeesAreAvailableOn(int salonId, int employeeId){
         return assignmentService.getAllAvailabilityDatesForAnEmployee(salonId, employeeId);
     }
