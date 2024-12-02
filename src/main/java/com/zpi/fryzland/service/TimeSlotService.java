@@ -78,7 +78,7 @@ public class TimeSlotService {
 
     public List<TimeSlotModel> createAndSaveMultipleTimeslots(EmployeeModel employeeProvidingService, LocalDate dateOfVisit, LocalTime timeStartOfVisit, long amountOfTimeSlots) {
         List<TimeSlotModel> timeSlotToSaveList = new ArrayList<>();
-        for (int i = 0; i < amountOfTimeSlots - 1; i++) {
+        for (int i = 0; i < amountOfTimeSlots; i++) {
             timeSlotToSaveList.add(new TimeSlotModel(dateOfVisit,
                     timeStartOfVisit,
                     employeeProvidingService));
