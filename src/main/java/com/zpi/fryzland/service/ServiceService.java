@@ -50,4 +50,8 @@ public class ServiceService {
     public void deleteServiceById(int id){
         serviceRepository.deleteById(id);
     }
+
+    public void updateService(ServiceModel serviceModel){
+        serviceRepository.save(serviceModel);
+    }
 }

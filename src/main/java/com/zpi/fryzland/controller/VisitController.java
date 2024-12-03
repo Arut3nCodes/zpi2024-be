@@ -1,5 +1,6 @@
 package com.zpi.fryzland.controller;
 
+import com.zpi.fryzland.dto.ServiceCategoryDTO;
 import com.zpi.fryzland.dto.VisitWithIdsDTO;
 import com.zpi.fryzland.service.VisitService;
 import lombok.AllArgsConstructor;
@@ -78,6 +79,31 @@ public class VisitController {
             List<VisitWithIdsDTO> visitList = visitService.getAllVisitsWithIdsForCustomer(customerID);
             return ResponseEntity.ok(visitList);
         }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<VisitDTO>> getAllVisits(){
+        try{
+            List<VisitDTO> listOfVisits = visitMapper.allToDTO(visitService.getAllVisits());
+            if(!listOfVisits.isEmpty()){
+                return ResponseEntity.ok(listOfVisits);
+            }
+            else{
+                return ResponseEntity.noContent().build();
+            }
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/doneForCustomer/{customerID}")
+    public ResponseEntity<Integer> getNumberOfFinishedVisitsByCustomerID(@PathVariable int customerID){
+        try{
+            int numberOfVisits = visitService.getNumberOfVisitsByCustomerID(customerID);
+            return ResponseEntity.ok(numberOfVisits);
+        }catch (Exception e){
             return ResponseEntity.badRequest().build();
         }
     }

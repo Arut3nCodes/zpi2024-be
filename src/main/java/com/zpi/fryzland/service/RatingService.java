@@ -23,12 +23,20 @@ public class RatingService{
         return repository.findById(id);
     }
 
+    public Optional<RatingModel> getRatingByVisitID(int id){
+        return repository.getByVisitModel_VisitID(id);
+    }
+
     public List<RatingModel> getAllRatingsByEmployeeID(int id){
         return repository.getAllByEmployeeModel_EmployeeID(id);
     }
 
     public List<RatingModel> getAllRatingsBySalonID(int id){
         return repository.getAllByVisitModel_AssigmentModel_SalonModel_SalonID(id);
+    }
+
+    public List<RatingModel> getAllRatingsByCustomerId(int id){
+        return repository.getAllByVisitModel_CustomerModel_CustomerID(id);
     }
 
     public RatingModel editRating(RatingModel ratingModel){
@@ -64,4 +72,9 @@ public class RatingService{
                 .map(model -> new RatingDTOWithCustomerID(model))
                 .toList();
     }
+    public List<RatingModel> getAllRatings(){
+        return repository.findAll();
+    }
+
+
 }
