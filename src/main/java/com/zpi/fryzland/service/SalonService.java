@@ -35,8 +35,11 @@ public class SalonService {
         salonRepository.deleteById(salonID);
     }
 
-    //todo: edit salon model
-    public SalonModel editSalonModel(){
-        throw new UnsupportedOperationException();
+    public void deleteSalon(SalonModel salonModel){
+        salonRepository.delete(salonModel);
+    }
+
+    public void editSalonModel(SalonModel salonModel){
+        salonRepository.save(salonModel);
     }
 }

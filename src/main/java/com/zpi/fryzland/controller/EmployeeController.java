@@ -10,6 +10,8 @@ import com.zpi.fryzland.service.EmployeeService;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,6 +57,21 @@ public class EmployeeController {
             }
         } catch(Exception e){
             e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<List<EmployeeDTO>> getAllEmployees(){
+        try{
+            List<EmployeeDTO> listOfEmployees = employeeMapper.allToDTO(employeeService.getAllEmployees());
+            if(!listOfEmployees.isEmpty()){
+                return ResponseEntity.ok(listOfEmployees);
+            }
+            else{
+                return ResponseEntity.noContent().build();
+            }
+        }catch(Exception e){
             return ResponseEntity.badRequest().build();
         }
     }

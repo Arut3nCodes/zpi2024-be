@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -11,7 +12,7 @@ import java.util.Date;
 @Data
 public class AssigmentToSalonDTO {
     private Integer assigmentID;
-    private Date assigmentDate;
+    private LocalDate assigmentDate;
     private Integer salonID;
     private Integer employeeID;
 }

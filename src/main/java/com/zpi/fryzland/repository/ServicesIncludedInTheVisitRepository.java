@@ -12,7 +12,6 @@ public interface ServicesIncludedInTheVisitRepository extends JpaRepository<Serv
     List<ServicesIncludedInTheVisitModel> getAllByVisitModel_VisitID(int visitID);
     List<ServicesIncludedInTheVisitModel> getAllByVisitModel_CustomerModel_CustomerID(int customerID);
     List<ServicesIncludedInTheVisitModel> getAllByVisitModel_AssigmentModel_EmployeeModel_EmployeeID(int employeeID);
-    List<ServicesIncludedInTheVisitModel> getAllByVisitModel(VisitModel visitModel);
-
+    List<ServicesIncludedInTheVisitModel> getAllByVisitModel(VisitModel visitModel);]
     List<ServicesIncludedInTheVisitModel> getAllByVisitModel_AssigmentModel_SalonModel_SalonID(int salonID);
 }

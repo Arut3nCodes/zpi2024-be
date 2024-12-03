@@ -2,6 +2,7 @@ package com.zpi.fryzland.service;
 
 import com.zpi.fryzland.dto.VisitWithIdsDTO;
 import com.zpi.fryzland.model.VisitModel;
+import com.zpi.fryzland.model.enums.VisitStatus;
 import com.zpi.fryzland.repository.VisitRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,14 @@ public class VisitService {
                 .stream()
                 .map(visitModel -> new VisitWithIdsDTO(visitModel))
                 .toList();
+    }
+
+    public List<VisitModel> getAllVisitsByAssignmentToSalonID(int assignmentToSalonID){
+        return repository.getAllByAssigmentModel_AssignmentID(assignmentToSalonID);
+    }
+
+    public Integer getNumberOfVisitsByCustomerID(int customerID){
+        return repository.countAllByCustomerModel_CustomerIDAndVisitStatus(customerID, VisitStatus.DONE);
     }
 
 }
