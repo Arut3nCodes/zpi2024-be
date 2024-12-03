@@ -12,4 +12,5 @@ public interface RatingRepository extends JpaRepository<RatingModel, Integer> {
     List<RatingModel> getAllByEmployeeModel_EmployeeID(int id);
     List<RatingModel> getAllByVisitModel_AssigmentModel_SalonModel_SalonID(int id);
     Optional<RatingModel> getByVisitModel_VisitID(int id);
+    List<RatingModel> getAllByVisitModel_CustomerModel_CustomerID(int id);
 }

@@ -95,6 +95,25 @@ public class RatingController {
         }
     }
 
+    @GetMapping("/getAllByCustomerId/{customerID}")
+    public ResponseEntity<List<RatingDTO>> getAllRatingForCustomer(@PathVariable int customerID){
+        try{
+            List<RatingDTO> ratingDTOList = service.getAllRatingsByCustomerId(customerID)
+                    .stream()
+                    .map(model -> mapper.toDTO(model))
+                    .toList();
+            if(!ratingDTOList.isEmpty()){
+                return ResponseEntity.ok(ratingDTOList);
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
     @GetMapping("/avgForSalon/{salonID}")
     public ResponseEntity<RatingAverageDTO> getAverageRatingForSalon(@PathVariable int salonID){
         try{
