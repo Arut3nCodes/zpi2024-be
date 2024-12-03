@@ -2,6 +2,7 @@ package com.zpi.fryzland.controller;
 
 import com.zpi.fryzland.dto.RatingAverageDTO;
 import com.zpi.fryzland.dto.RatingDTO;
+import com.zpi.fryzland.dto.RatingDTOWithCustomerID;
 import com.zpi.fryzland.dto.ServiceCategoryDTO;
 import com.zpi.fryzland.mapper.RatingMapper;
 import com.zpi.fryzland.mapper.SalonMapper;
@@ -131,7 +132,7 @@ public class RatingController {
         }
     }
 
-    @GetMapping("/avgForSalon/{employeeID}")
+    @GetMapping("/avgForEmployee/{employeeID}")
     public ResponseEntity<RatingAverageDTO> getAverageRatingForEmployee(@PathVariable int employeeID){
         try{
             float averageRating = service.calculateAverageRatingForEmployeeById(employeeID);
@@ -148,6 +149,22 @@ public class RatingController {
         }
     }
 
+    @GetMapping("/allForSalonWithCustomer/{salonID}")
+    public ResponseEntity<List<RatingDTOWithCustomerID>> getAllRatingForSalonCustomer(@PathVariable int salonID){
+        try{
+            List<RatingDTOWithCustomerID> ratingDTOList = service.getAllRatingsForSalonWithCustomer(salonID);
+            if(!ratingDTOList.isEmpty()){
+                return ResponseEntity.ok(ratingDTOList);
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
+
+        }catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
     @GetMapping("")
     public ResponseEntity<List<RatingDTO>> getAllRatings(){
         try{

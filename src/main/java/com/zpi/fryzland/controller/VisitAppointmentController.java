@@ -1,5 +1,6 @@
 package com.zpi.fryzland.controller;
 
+import com.zpi.fryzland.dto.RescheduleDTO;
 import com.zpi.fryzland.dto.SaveVisitDTO;
 import com.zpi.fryzland.dto.TimeSlotDTO;
 import com.zpi.fryzland.dto.VisitDTO;
@@ -95,6 +96,20 @@ public class VisitAppointmentController {
             }
         }catch(Exception e){
             e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PatchMapping("/reschedule-visit/{visitId}")
+    public ResponseEntity<HttpStatus> rescheduleVisit(@PathVariable int visitId, @RequestBody RescheduleDTO dto) {
+        try {
+            if ((dto.getUserRole() == 'C' && dto.getUserID() != null) || dto.getUserRole() == 'E') {
+                if (visitAppointmentService.rescheduleVisit(dto.getUserRole(), dto.getUserID(), visitId, dto.getRescheduleDate(), dto.getRescheduleTime())) {
+                    return ResponseEntity.noContent().build();
+                }
+            }
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
     }

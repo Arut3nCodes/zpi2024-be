@@ -1,5 +1,6 @@
 package com.zpi.fryzland.service;
 
+import com.zpi.fryzland.dto.RatingDTOWithCustomerID;
 import com.zpi.fryzland.model.RatingModel;
 import com.zpi.fryzland.repository.RatingRepository;
 import lombok.AllArgsConstructor;
@@ -55,7 +56,7 @@ public class RatingService{
                 .stream()
                 .mapToDouble(ratingModel -> ratingModel.getRatingValue())
                 .average()
-                .orElseThrow(NoSuchElementException::new);
+                .orElse(0.0);
     }
 
     public float calculateAverageRatingForSalonById(int id){
@@ -63,9 +64,14 @@ public class RatingService{
                 .stream()
                 .mapToDouble(ratingModel -> ratingModel.getRatingValue())
                 .average()
-                .orElseThrow(NoSuchElementException::new);
+                .orElse(0.0);
     }
 
+    public List<RatingDTOWithCustomerID> getAllRatingsForSalonWithCustomer(int salonID){
+        return getAllRatingsBySalonID(salonID).stream()
+                .map(model -> new RatingDTOWithCustomerID(model))
+                .toList();
+    }
     public List<RatingModel> getAllRatings(){
         return repository.findAll();
     }

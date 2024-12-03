@@ -31,7 +31,7 @@ public class VisitMapper implements Mapper<VisitModel, VisitDTO> {
         return new VisitDTO(
                 model.getVisitID(),
                 model.getVisitDate(),
-                model.getVisitStartDate(),
+                model.getVisitStartTime(),
                 model.getVisitStatus() != null ? model.getVisitStatus().name() : null,
                 model.getAssigmentModel() != null ? model.getAssigmentModel().getAssignmentID() : null,
                 model.getCustomerModel() != null ? model.getCustomerModel().getCustomerID() : null

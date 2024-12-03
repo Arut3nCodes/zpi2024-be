@@ -34,6 +34,12 @@ public class ServicesIncludedInTheVisitService{
         return repository.getAllByVisitModel_VisitID(visitID);
     }
 
+    public List<ServicesIncludedInTheVisitDTO> getAllDtoConnectionsByVisitId(int visitID){
+        return mapper.allToDTO(
+                getAllConnectionsByVisitId(visitID)
+        );
+    }
+
     public List<ServicesIncludedInTheVisitModel> getAllConnectionsByCustomerId(int customerID){
         return repository.getAllByVisitModel_CustomerModel_CustomerID(customerID);
     }
@@ -53,9 +59,18 @@ public class ServicesIncludedInTheVisitService{
                 getAllConnectionsByEmployeeId(employeeID)
         );
     }
-//    public List<ServiceModel> getAllServicesByVisitModel(VisitModel visitModel) {
-//        return repository.getAllByVisitModel(visitModel).stream()
-//                .map(model -> model.getServiceModel())
-//                .toList();
-//    }
+
+    public List<ServiceModel> getAllServicesByVisitModel(VisitModel visitModel) {
+        return repository.getAllByVisitModel(visitModel).stream()
+                .map(model -> model.getServiceModel())
+                .toList();
+    }
+
+    public List<ServicesIncludedInTheVisitModel> getAllConnectionsBySalonId(int salonID){
+        return repository.getAllByVisitModel_AssigmentModel_SalonModel_SalonID(salonID);
+    }
+
+    public List<ServicesIncludedInTheVisitDTO> getAllDtoConnectionsBySalonId(int salonID){
+        return mapper.allToDTO(getAllConnectionsBySalonId(salonID));
+    }
 }

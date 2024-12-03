@@ -13,6 +13,7 @@ import com.zpi.fryzland.validators.OpeningHours;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.Role;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -83,6 +84,29 @@ public class VisitAppointmentService {
         }
     }
 
+    public List<TimeSlotDTO> getAllTimeSlotsForEmployeeBeforeDateInSalon(int employeeId, int salonId, LocalDate date){
+        Optional<EmployeeModel> optionalEmployeeModel = employeeService.getEmployeeById(employeeId);
+        Optional<SalonModel> optionalSalonModel = salonService.getSalonById(salonId);
+        if(optionalEmployeeModel.isPresent() && optionalSalonModel.isPresent()){
+            List<LocalDate> datesOfAssignmentToSalon = assignmentService.findAllAssignmentsForSalonAndEmployeeBeforeDate(
+                    optionalSalonModel.get(),
+                    optionalEmployeeModel.get(),
+                    LocalDate.now().plusDays(14)
+            ).stream()
+                    .map(model -> model.getAssignmentDate())
+                    .toList();
+
+            return timeSlotService.getAllTimeSlotsByEmployeeBeforeDate(optionalEmployeeModel.get(), date)
+                    .stream()
+                    .filter(timeSlotModel -> datesOfAssignmentToSalon.contains(timeSlotModel))
+                    .map(model -> timeSlotMapper.toDTO(model))
+                    .toList();
+        }
+        else{
+            return new ArrayList<>();
+        }
+    }
+
     public VisitModel makeAnAppointment(SaveVisitDTO visitDTO){
         try{
             AssignmentToSalonModel assignmentModel = assignmentService.findAssignmentByEmployeeAndSalonAndDate(
@@ -92,10 +116,26 @@ public class VisitAppointmentService {
             Optional<CustomerModel> customerModel = customerService.findCustomerById(visitDTO.getCustomerID());
 
             if (assignmentModel != null && listOfServices.size() == visitDTO.getServiceIDList().size() && customerModel.isPresent()) {
+                if(!assignmentModel.getAssignmentDate().equals(visitDTO.getVisitDate())){
+                    System.out.println("Wrong assignment date");
+                    return null;
+                }
                 long howManyTimeSlots = listOfServices.stream()
                         .mapToLong(model -> model.getServiceSpan())
                         .sum();
-                if (timeSlotService.checkIfNextTimeSlotsSinceTimeExist(assignmentModel.getEmployeeModel(), howManyTimeSlots, visitDTO.getVisitStartTime())) {
+                List<VisitModel> allVisitsForCustomer = visitService.getAllVisitsAtDateByCustomerID(visitDTO.getVisitDate(), visitDTO.getCustomerID());
+                for(VisitModel visit : allVisitsForCustomer){
+                    long howManyTimeSlotsForVisit = serviceIncludedService.getAllServicesByVisitModel(visit).stream()
+                            .mapToLong(model -> model.getServiceSpan())
+                            .sum();
+                    if(timeSlotService.checkIfAnyOfTheTimeSlotsInVisitAreCollidingWithPlanned(visit.getAssigmentModel().getEmployeeModel(), visit.getVisitDate(),
+                                howManyTimeSlotsForVisit, visit.getVisitStartTime(), howManyTimeSlots, visitDTO.getVisitStartTime())){
+                            System.out.println("Collides with other customer visits");
+                            return null;
+                    }
+                }
+
+                if (timeSlotService.checkIfNextTimeSlotsSinceTimeExist(assignmentModel.getEmployeeModel(), visitDTO.getVisitDate(), howManyTimeSlots, visitDTO.getVisitStartTime())) {
                     System.out.println(LocalTime.now());
                     timeSlotService.createAndSaveMultipleTimeslots(
                             assignmentModel.getEmployeeModel(),
@@ -104,7 +144,7 @@ public class VisitAppointmentService {
                             howManyTimeSlots
                     );
                 } else {
-                    System.out.println("Something failed");
+                    System.out.println("timeslots failed");
                     return null;
                 }
 
@@ -118,21 +158,92 @@ public class VisitAppointmentService {
                 );
 
                 visitModel = visitService.addVisit(visitModel);
+
                 if (visitModel != null) {
+                    System.out.println("works saving visit");
                     List<ServicesIncludedInTheVisitModel> serviceIncludedList = serviceIncludedService.saveAllServiceVisitConnections(listOfServices, visitModel);
                     if (serviceIncludedList.size() == listOfServices.size()) {
                         return visitModel;
                     }
                 }
+                timeSlotService.deleteMultipleTimeslots(
+                        assignmentModel.getEmployeeModel(),
+                        visitDTO.getVisitDate(),
+                        visitDTO.getVisitStartTime(),
+                        howManyTimeSlots
+                );
             }
+            System.out.println("saving visit doesn't work");
+
             return null;
         }catch(Exception e){
             e.printStackTrace();
             return null;
         }
     }
-
     public List<LocalDate> getAllDatesEmployeesAreAvailableOn(int salonId, int employeeId){
         return assignmentService.getAllAvailabilityDatesForAnEmployee(salonId, employeeId);
+    }
+
+    public boolean rescheduleVisit(char userRole, Integer userID, int visitId, LocalDate rescheduledDate, LocalTime rescheduledTime) {
+        try{
+            Optional<VisitModel> optionalVisitModel = visitService.getVisitById(visitId);
+            if(optionalVisitModel.isPresent()){
+                VisitModel visitModel = optionalVisitModel.get();
+                List<ServiceModel> listOfServices = serviceIncludedService.getAllServicesByVisitModel(visitModel);
+                AssignmentToSalonModel assignmentModel = visitModel.getAssigmentModel();
+                if (assignmentModel != null && !listOfServices.isEmpty() && visitModel.getCustomerModel() != null && ((visitModel.getCustomerModel().getCustomerID() == userID.intValue() && userRole == 'C') || userRole == 'E')) {
+                    long howManyTimeSlots = listOfServices.stream()
+                            .mapToLong(model -> model.getServiceSpan())
+                            .sum();
+                    List<VisitModel> allVisitsForCustomer = visitService.getAllVisitsAtDateByCustomerID(rescheduledDate, visitModel.getCustomerModel().getCustomerID())
+                                    .stream()
+                                    .filter(model -> model.getVisitID() != visitId)
+                                    .toList();
+                    for(VisitModel visit : allVisitsForCustomer){
+                        if(visit != visitModel) {
+                            long howManyTimeSlotsForVisit = serviceIncludedService.getAllServicesByVisitModel(visit).stream()
+                                    .mapToLong(model -> model.getServiceSpan())
+                                    .sum();
+                            if (timeSlotService.checkIfAnyOfTheTimeSlotsInVisitAreCollidingWithPlanned(visit.getAssigmentModel().getEmployeeModel(), rescheduledDate,
+                                    howManyTimeSlotsForVisit, visit.getVisitStartTime(), howManyTimeSlots, rescheduledTime)) {
+                                System.out.println("Collides with other customer visits");
+                                return false;
+                            }
+                        }
+                    }
+                    if (timeSlotService.checkIfNextTimeSlotsFromTimeExistExcludingCurrentVisitSlots(
+                            assignmentModel.getEmployeeModel(), howManyTimeSlots, rescheduledDate, rescheduledTime, visitModel.getVisitDate(), visitModel.getVisitStartTime())
+                    ){
+                        System.out.println(LocalTime.now());
+                        timeSlotService.deleteMultipleTimeslots(
+                                assignmentModel.getEmployeeModel(),
+                                visitModel.getVisitDate(),
+                                visitModel.getVisitStartTime(),
+                                howManyTimeSlots
+                        );
+                        timeSlotService.createAndSaveMultipleTimeslots(
+                                assignmentModel.getEmployeeModel(),
+                                rescheduledDate,
+                                rescheduledTime,
+                                howManyTimeSlots
+                        );
+                    } else {
+                        System.out.println("timeslots failed");
+                        return false;
+                    }
+                    visitModel.setVisitDate(rescheduledDate);
+                    visitModel.setVisitStartTime(rescheduledTime);
+                    visitModel = visitService.updateModel(visitModel);
+                    return visitModel != null;
+
+                }
+                return false;
+            }
+            return false;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

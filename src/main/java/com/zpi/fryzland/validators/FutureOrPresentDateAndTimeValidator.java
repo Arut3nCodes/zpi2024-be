@@ -21,8 +21,8 @@ public class FutureOrPresentDateAndTimeValidator implements ConstraintValidator<
                 return false;
             }
             else{
-                return ((date.isEqual(LocalDate.now()) || date.isAfter(LocalDate.now()))
-                        && (time.isAfter(LocalTime.now())));
+                return (date.isAfter(LocalDate.now()) || (date.isEqual(LocalDate.now())
+                        && time.isAfter(LocalTime.now())));
             }
         }catch(Exception e){
             e.printStackTrace();

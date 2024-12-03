@@ -84,6 +84,10 @@ public class AssignmentToSalonService {
         return allAssignments;
     }
 
+    public List<AssignmentToSalonModel> findAllAssignmentsForSalonAndEmployeeBeforeDate(SalonModel salonModel, EmployeeModel employeeModel, LocalDate date){
+        return assigmentRepository.findAllBySalonModelAndEmployeeModelAndAssignmentDateBefore(salonModel, employeeModel, date);
+    }
+
     //todo: Wyciągnąć datę na zewnątrz żeby nie była hardcodowana w funkcji
     public List<LocalDate> getAllAvailabilityDatesForAnEmployee(int salonId, int employeeId){
         Optional<EmployeeModel> optionalEmployeeModel = employeeService.getEmployeeById(employeeId);
