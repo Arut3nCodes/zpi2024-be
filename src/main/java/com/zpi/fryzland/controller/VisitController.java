@@ -98,5 +98,15 @@ public class VisitController {
         }
     }
 
+    @GetMapping("/doneForCustomer/{customerID}")
+    public ResponseEntity<Integer> getNumberOfFinishedVisitsByCustomerID(@PathVariable int customerID){
+        try{
+            int numberOfVisits = visitService.getNumberOfVisitsByCustomerID(customerID);
+            return ResponseEntity.ok(numberOfVisits);
+        }catch (Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
 }
