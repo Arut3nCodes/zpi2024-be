@@ -2,6 +2,7 @@ package com.zpi.fryzland.controller;
 
 import com.zpi.fryzland.dto.RatingAverageDTO;
 import com.zpi.fryzland.dto.RatingDTO;
+import com.zpi.fryzland.dto.RatingDTOWithCustomerID;
 import com.zpi.fryzland.mapper.RatingMapper;
 import com.zpi.fryzland.mapper.SalonMapper;
 import com.zpi.fryzland.model.RatingModel;
@@ -123,6 +124,23 @@ public class RatingController {
             return ResponseEntity.notFound().build();
         }
         catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/allForSalonWithCustomer/{salonID}")
+    public ResponseEntity<List<RatingDTOWithCustomerID>> getAllRatingForSalonCustomer(@PathVariable int salonID){
+        try{
+            List<RatingDTOWithCustomerID> ratingDTOList = service.getAllRatingsForSalonWithCustomer(salonID);
+            if(!ratingDTOList.isEmpty()){
+                return ResponseEntity.ok(ratingDTOList);
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
+
+        }catch(Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
