@@ -18,5 +18,4 @@ public class TimeSlotKey implements Serializable {
     private LocalDate timeSlotDate;
     private LocalTime timeSlotTime;
     private EmployeeModel employeeModel;
-    private Integer employeeModel;
 }
