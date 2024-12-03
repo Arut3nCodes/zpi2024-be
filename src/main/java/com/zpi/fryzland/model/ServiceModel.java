@@ -26,6 +26,6 @@ public class ServiceModel {
     @Column(name="OpisU", length = 200)
     private String serviceDescription;
     @ManyToOne
-    @JoinColumn(name="KategoriaU", nullable = false)
+    @JoinColumn(name="KategoriaU")
     private ServiceCategoryModel serviceCategoryModel;
 }

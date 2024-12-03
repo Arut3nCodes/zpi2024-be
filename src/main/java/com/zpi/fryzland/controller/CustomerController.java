@@ -6,12 +6,10 @@ import com.zpi.fryzland.mapper.CustomerMapper;
 import com.zpi.fryzland.model.CustomerModel;
 import com.zpi.fryzland.service.CustomerService;
 import lombok.AllArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,9 +18,11 @@ import java.util.Optional;
 @AllArgsConstructor
 @RequestMapping("/api/crud/customer")
 public class CustomerController {
-    CustomerService customerService;
-    CustomerMapper customerMapper;
-    @PostMapping("/find-by-email")
+
+    private final CustomerService customerService;
+    private final CustomerMapper customerMapper;
+
+    @GetMapping("/find-by-email")
     public ResponseEntity<CustomerDTO> getUserByEmail(@RequestBody EmailDTO emailDTO){
         try{
             Optional<CustomerModel> optionalCustomerModel = customerService.findByEmail(emailDTO.getEmail());
@@ -51,6 +51,28 @@ public class CustomerController {
             return ResponseEntity.notFound().build();
         } catch(Exception e){
             e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("")
+    public ResponseEntity<String> updateCustomer(@RequestBody CustomerDTO customerDTO){
+        try{
+            Optional<CustomerModel> customerModel = customerService.findCustomerById(customerDTO.getCustomerID());
+            if(customerModel.isPresent()){
+                CustomerDTO dtoToUpdate = customerMapper.toDTO(customerModel.get());
+                dtoToUpdate.setCustomerEmail(customerDTO.getCustomerEmail());
+                dtoToUpdate.setCustomerName(customerDTO.getCustomerName());
+                dtoToUpdate.setCustomerSurname(customerDTO.getCustomerSurname());
+                dtoToUpdate.setCustomerDialNumber(customerDTO.getCustomerDialNumber());
+                dtoToUpdate.setServiceCategoryID(customerDTO.getServiceCategoryID());
+                customerService.editCustomer(customerMapper.toModel(dtoToUpdate, true));
+                return ResponseEntity.ok().build();
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
+        }catch(Exception e){
             return ResponseEntity.badRequest().build();
         }
     }

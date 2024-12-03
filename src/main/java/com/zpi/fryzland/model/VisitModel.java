@@ -27,7 +27,6 @@ public class VisitModel {
     @FutureOrPresent
     @Column(name="DataW", nullable = false)
     private LocalDate visitDate;
-    @FutureOrPresent
     @Column(name="GodzinaRozp", nullable = false, columnDefinition = "TIME(0)")
     private LocalTime visitStartDate;
     @ColumnDefault("'RESERVED'")

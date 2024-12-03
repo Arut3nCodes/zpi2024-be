@@ -1,6 +1,8 @@
 package com.zpi.fryzland.service;
 
+import com.zpi.fryzland.dto.AssigmentToSalonDTO;
 import com.zpi.fryzland.dto.SaveVisitDTO;
+import com.zpi.fryzland.mapper.AssignmentToSalonMapper;
 import com.zpi.fryzland.model.AssignmentToSalonModel;
 import com.zpi.fryzland.model.EmployeeModel;
 import com.zpi.fryzland.model.SalonModel;
@@ -22,6 +24,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AssignmentToSalonService {
     private final AssignmentToSalonRepository assigmentRepository;
+    private final AssignmentToSalonMapper assignmentMapper;
     private final SalonService salonService;
     private final EmployeeService employeeService;
 
@@ -104,8 +107,11 @@ public class AssignmentToSalonService {
         assigmentRepository.deleteById(id);
     }
 
-    //todo: editAssignment() method
-    public void editAssignment(){
-        throw new UnsupportedOperationException();
+    public void editAssignment(AssignmentToSalonModel assignmentToSalonModel){
+        assigmentRepository.save(assignmentToSalonModel);
+    }
+
+    public List<AssigmentToSalonDTO> getAllAssingments(){
+        return assignmentMapper.allToDTO(assigmentRepository.findAll());
     }
 }

@@ -47,4 +47,8 @@ public class ServiceCategoryService {
     public void deleteCategoryById(int id){
         categoryRepository.deleteById(id);
     }
+
+    public void updateCategory(ServiceCategoryModel serviceCategoryModel){
+        categoryRepository.save(serviceCategoryModel);
+    }
 }
