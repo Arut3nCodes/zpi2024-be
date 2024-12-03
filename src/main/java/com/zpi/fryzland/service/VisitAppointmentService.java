@@ -11,10 +11,12 @@ import com.zpi.fryzland.model.*;
 import com.zpi.fryzland.model.enums.VisitStatus;
 import com.zpi.fryzland.validators.OpeningHours;
 import lombok.AllArgsConstructor;
+import org.hibernate.grammars.hql.HqlParser;
 import org.springframework.stereotype.Service;
 
 import javax.management.relation.Role;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -235,7 +237,7 @@ public class VisitAppointmentService {
                     visitModel.setVisitDate(rescheduledDate);
                     visitModel.setVisitStartTime(rescheduledTime);
                     visitModel = visitService.updateModel(visitModel);
-                    return visitModel != null;
+                    return true;
 
                 }
                 return false;
@@ -245,5 +247,28 @@ public class VisitAppointmentService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean cancelVisit(int visitId, VisitStatus visitStatus) {
+        Optional<VisitModel> optionalVisitModel = visitService.getVisitById(visitId);
+        if (optionalVisitModel.isPresent()) {
+            VisitModel visitModel = optionalVisitModel.get();
+            List<ServiceModel> listOfServices = serviceIncludedService.getAllServicesByVisitModel(visitModel);
+            LocalDateTime visitTime = visitModel.getVisitDate().atTime(visitModel.getVisitStartTime());
+            if (!listOfServices.isEmpty() && (visitStatus == VisitStatus.CANCELLED_CUSTOMER || visitStatus == VisitStatus.CANCELLED_EMPLOYEE) && visitModel.getVisitStatus().equals(VisitStatus.RESERVED) && LocalDateTime.now().isBefore(visitTime.minusDays(1))) {
+                long howManyTimeSlots = listOfServices.stream()
+                        .mapToLong(model -> model.getServiceSpan())
+                        .sum();
+                timeSlotService.deleteMultipleTimeslots(
+                        visitModel.getAssigmentModel().getEmployeeModel(),
+                        visitModel.getVisitDate(),
+                        visitModel.getVisitStartTime(),
+                        howManyTimeSlots
+                );
+                visitModel.setVisitStatus(visitStatus);
+                return visitService.updateModel(visitModel) != null;
+            }
+        }
+        return false;
     }
 }

@@ -39,7 +39,7 @@ public class VisitService {
     public VisitModel updateModel(VisitModel visitModel){
         Optional<VisitModel> optionalVisitModel = getVisitById(visitModel.getVisitID());
         if(optionalVisitModel.isPresent()){
-            addVisit(optionalVisitModel.get());
+            return addVisit(optionalVisitModel.get());
         }
         return null;
     }
