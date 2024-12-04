@@ -1,0 +1,40 @@
+<div class="email-footer">
+    <hr style="border: 0; border-top: 1px solid #e2e2e2; margin: 20px 0;">
+    <div class="signature">
+        <p><strong>Best regards,</strong></p>
+        <p th:text="${company}">Your Company Name</p>
+        <p>Email: <a th:href="'mailto:' + ${email}" style="color: #4CAF50; text-decoration: none;">contact@company.com</a></p>
+        <p style="font-size: 12px; color: #888;">This email was sent to <span th:text="${emailRecipient}">recipient@example.com</span>. If you no longer wish to receive emails, please <a href="#" style="color: #FF5722; text-decoration: none;">unsubscribe</a>.</p>
+    </div>
+    <div style="font-size: 12px; text-align: center; color: #888;">
+        <p>&copy; <span th:text="${year}">2024</span> <span th:text="${company}">Your Company Name</span>. All rights reserved.</p>
+    </div>
+</div>
+
+<style>
+    .email-footer {
+        text-align: center;
+        font-family: Arial, sans-serif;
+        color: #555;
+        padding: 20px;
+    }
+
+    .email-footer a {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .email-footer a:hover {
+        text-decoration: underline;
+    }
+
+    .signature p {
+        margin: 5px 0;
+    }
+
+    .email-footer hr {
+        border: 0;
+        border-top: 1px solid #ddd;
+        margin: 20px 0;
+    }
+</style>
