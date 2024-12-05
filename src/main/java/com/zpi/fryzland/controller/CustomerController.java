@@ -22,7 +22,7 @@ public class CustomerController {
     private final CustomerService customerService;
     private final CustomerMapper customerMapper;
 
-    @PostMapping("/find-by-email")
+    @GetMapping("/find-by-email")
     public ResponseEntity<CustomerDTO> getUserByEmail(@RequestBody EmailDTO emailDTO){
         try{
             Optional<CustomerModel> optionalCustomerModel = customerService.findByEmail(emailDTO.getEmail());
