@@ -31,7 +31,7 @@
             margin-bottom: 20px;
         }
 
-        h1 {
+        h2 {
             font-size: 2em;
             margin-top: 0;
             color: #EFBF04;
@@ -86,8 +86,10 @@
         <img src="cid:barber_image" alt="Barber Image">
     </div>
 
-    <h1>Witaj!</h1>
-    <p>Jest to testowa wiadomość.</p>
+    <h2>Witaj, <span th:text="${firstName}">Imie</span> <span th:text="${lastName}">nazwisko</span>!</h2>
+    <p>Serdecznie witamy w gronie użytkowników naszej prestiżowej sieci salonów fryzjerskich! Cieszymy się, że możemy powitać kolejnego klienta! Jako nasz nowy klient, masz teraz dostęp do wyjątkowych usług, które pozwolą Ci poczuć się jeszcze lepiej w swojej skórze.</p>
+    <p>Z niecierpliwością czekamy, aby zaoferować Ci najwyższą jakość usług oraz indywidualne podejście, które wyróżnia nas na tle innych salonów.</p>
+    <p>Zapraszamy do umówienia swojej pierwszej wizyty i odkrycia, dlaczego jesteśmy najlepszym wyborem dla najbardziej wymagających klientów!</p>
 
     <div class="footer">
         <hr>
@@ -95,7 +97,7 @@
             <p><strong style="color: #EFBF04;">Best regards,</strong></p>
             <p style="color: #EFBF04;" th:text="${company}">Your Company Name</p>
             <p style="color: #EFBF04;">
-                Email: <a th:href="'mailto:' + ${email}" style="color: #EFBF04;">contact@company.com</a>
+                Email: <a th:href="'mailto:' + 'fryzlandzpi@gmail.com'" style="color: #EFBF04;">fryzlandzpi@gmail.com</a>
             </p>
         </div>
         <p>

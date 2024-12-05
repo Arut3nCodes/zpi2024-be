@@ -31,7 +31,7 @@
             margin-bottom: 20px;
         }
 
-        h1 {
+        h2 {
             font-size: 2em;
             margin-top: 0;
             color: #EFBF04;
@@ -86,8 +86,10 @@
         <img src="cid:barber_image" alt="Barber Image">
     </div>
 
-    <h1>Witaj!</h1>
-    <p>Jest to testowa wiadomość.</p>
+    <h2>Witaj, <span th:text="${firstName}">Imie</span> <span th:text="${lastName}">nazwisko</span>!</h2>
+    <p>Serdecznie witamy w zespole naszej prestiżowej sieci salonów fryzjerskich! Cieszymy się, że dołączyłeś/aś do naszej rodziny. Jako nasz nowy pracownik, masz teraz możliwość pracy w dynamicznym i profesjonalnym środowisku, gdzie dbamy o najwyższy standard usług oraz zadowolenie naszych klientów.</p>
+    <p>Z niecierpliwością czekamy na Twoje zaangażowanie i talent, który wniesiesz do naszej drużyny. Razem będziemy rozwijać naszą markę i oferować usługi, które wyróżniają nas na rynku.</p>
+    <p>Życzymy Ci sukcesów w naszej firmie i mamy nadzieję, że szybko poczujesz się częścią zespołu!</p>
 
     <div class="footer">
         <hr>
@@ -95,7 +97,7 @@
             <p><strong style="color: #EFBF04;">Best regards,</strong></p>
             <p style="color: #EFBF04;" th:text="${company}">Your Company Name</p>
             <p style="color: #EFBF04;">
-                Email: <a th:href="'mailto:' + ${email}" style="color: #EFBF04;">contact@company.com</a>
+                Email: <a th:href="'mailto:' + 'fryzlandzpi@gmail.com'" style="color: #EFBF04;">fryzlandzpi@gmail.com</a>
             </p>
         </div>
         <p>

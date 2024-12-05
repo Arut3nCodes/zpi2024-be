@@ -10,6 +10,7 @@ import com.zpi.fryzland.model.CustomerModel;
 import com.zpi.fryzland.model.EmployeeModel;
 import com.zpi.fryzland.security.authentication.AuthService;
 import com.zpi.fryzland.service.CustomerService;
+import com.zpi.fryzland.service.EmailService;
 import com.zpi.fryzland.service.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,7 @@ public class AuthController extends BaseController{
     private final CustomerMapper customerMapper;
     private final AuthService authService;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @PostMapping("/employee/login")
     public ResponseEntity<TokenDTO> loginEmployee(@RequestBody LoginDTO loginDTO){
@@ -55,10 +57,14 @@ public class AuthController extends BaseController{
             Optional<EmployeeModel> employeeModelOptional = this.employeeService.getByEmployeeEmail(employeeDTO.getEmployeeEmail());
             if(employeeModelOptional.isEmpty()){
                 employeeDTO.setEncryptedEmployeePassword(passwordEncoder.encode(employeeDTO.getEncryptedEmployeePassword()));
-                this.employeeService.addEmployee(employeeMapper.toModel(employeeDTO, false));
-                return ResponseEntity
-                        .ok()
-                        .build();
+                EmployeeModel employeeModel = employeeMapper.toModel(employeeDTO, false);
+                employeeModel = this.employeeService.addEmployee(employeeModel);
+                if(employeeModel != null){
+                    emailService.sendRegisteredEmployeeEmail(employeeModel.getEmployeeEmail(), employeeModel);
+                    return ResponseEntity
+                            .ok()
+                            .build();
+                }
             }
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
@@ -95,10 +101,14 @@ public class AuthController extends BaseController{
             Optional<CustomerModel> customerModelOptional = this.customerService.findByEmail(customerDTO.getCustomerEmail());
             if(customerModelOptional.isEmpty()){
                 customerDTO.setEncryptedCustomerPassword(passwordEncoder.encode(customerDTO.getEncryptedCustomerPassword()));
-                this.customerService.addCustomer(customerMapper.toModel(customerDTO, false));
-                return ResponseEntity
-                        .ok()
-                        .build();
+                CustomerModel customerModel = customerMapper.toModel(customerDTO, false);
+                customerModel = this.customerService.addCustomer(customerModel);
+                if(customerModel != null){
+                    emailService.sendRegisteredCustomerEmail(customerModel.getCustomerEmail(), customerModel);
+                    return ResponseEntity
+                            .ok()
+                            .build();
+                }
             }
                 return ResponseEntity
                         .status(HttpStatus.CONFLICT)
