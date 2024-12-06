@@ -76,4 +76,19 @@ public class CustomerController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @GetMapping("/{customerID}")
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable int customerID){
+        try{
+            Optional<CustomerModel> customerModel = customerService.findCustomerById(customerID);
+            if(customerModel.isPresent()){
+                return ResponseEntity.ok(customerMapper.toDTO(customerModel.get()));
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
 }
