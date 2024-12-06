@@ -18,12 +18,6 @@ public class EmployeeRequestModel {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name="PodanieID", nullable = false)
     private String employeeRequestId;
-    @PrePersist
-    private void addPrefix() {
-        if (employeeRequestId != null) {
-            employeeRequestId = "E-" + employeeRequestId;
-        }
-    }
 
     @Enumerated(EnumType.STRING)
     @Column(name="TypPodania", nullable = false)

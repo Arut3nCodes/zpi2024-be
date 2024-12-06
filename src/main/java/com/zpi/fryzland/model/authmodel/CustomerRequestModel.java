@@ -21,12 +21,6 @@ public class CustomerRequestModel {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name="PodanieID", nullable = false)
     private String customerRequestId;
-    @PrePersist
-    private void addPrefix() {
-        if (customerRequestId != null) {
-            customerRequestId = "C-" + customerRequestId;
-        }
-    }
 
     @Enumerated(EnumType.STRING)
     @Column(name="TypPodania", nullable = false)
@@ -34,7 +28,7 @@ public class CustomerRequestModel {
 
     @FutureOrPresent
     @Column(name="DataWygaśnięcia", nullable = false)
-    private LocalDate employeeRequestExpirationDate;
+    private LocalDate customerRequestExpirationDate;
 
     @Column(name="CzasWygaśnięcia", nullable = false)
     private LocalTime customerRequestExpirationTime;

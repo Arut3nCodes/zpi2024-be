@@ -20,6 +20,9 @@ import java.time.LocalDate;
 public class EmailService {
     private final JavaMailSender mailSender;
     private final TemplateEngine templateEngine;
+
+
+
     public enum EmailType{
         TEST_EMAIL,
         REGISTER,
@@ -80,6 +83,19 @@ public class EmailService {
         context.setVariable("firstName", employeeModel.getEmployeeName());
         context.setVariable("lastName", employeeModel.getEmployeeSurname());
         sendEmail(to, "Witaj w gronie fryzjerów Ateliers De Style", "registered-employee-email", context);
+    }
+
+    public void sendPasswordChangeRequestEmail(String to, String requestId) throws MessagingException{
+        Context context = new Context();
+        basicEmailContextMapping(context);
+        context.setVariable("requestId", requestId);
+        sendEmail(to, "Żądanie zmiany hasła", "password-lost-email", context);
+    }
+
+    public void sendPasswordChangedEmail(String to) throws MessagingException{
+        Context context = new Context();
+        basicEmailContextMapping(context);
+        sendEmail(to, "Potwierdzenie zmiany hasła", "password-changed-email", context);
     }
 
     //public void sendRegistered
