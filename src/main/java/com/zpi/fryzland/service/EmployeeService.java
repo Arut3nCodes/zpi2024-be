@@ -49,6 +49,10 @@ public class EmployeeService {
         employeeRepository.delete(employeeModel);
     }
 
+    public void updateEmployee(EmployeeModel employeeModel){
+        employeeRepository.save(employeeModel);
+    }
+
     public List<EmployeeModel> getAllEmployeesByAssignment(List<AssignmentToSalonModel> listOfAssignments){
         return listOfAssignments.stream()
                 .map(AssignmentToSalonModel::getEmployeeModel)

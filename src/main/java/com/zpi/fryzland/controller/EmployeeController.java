@@ -3,10 +3,10 @@ package com.zpi.fryzland.controller;
 import com.zpi.fryzland.dto.CustomerDTO;
 import com.zpi.fryzland.dto.EmailDTO;
 import com.zpi.fryzland.dto.EmployeeDTO;
+import com.zpi.fryzland.dto.RatingDTO;
 import com.zpi.fryzland.mapper.EmployeeMapper;
-import com.zpi.fryzland.model.CustomerModel;
-import com.zpi.fryzland.model.EmployeeModel;
-import com.zpi.fryzland.service.EmployeeService;
+import com.zpi.fryzland.model.*;
+import com.zpi.fryzland.service.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -79,6 +79,35 @@ public class EmployeeController {
             Optional<EmployeeModel> employeeModel = employeeService.getEmployeeById(employeeID);
             if(employeeModel.isPresent()){
                 return ResponseEntity.ok(employeeMapper.toDTO(employeeModel.get()));
+            }
+            else{
+                return ResponseEntity.notFound().build();
+            }
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PutMapping("")
+    public ResponseEntity<String> updateEmployee(@RequestBody EmployeeDTO employeeDTO){
+        try{
+            Optional<EmployeeModel> employeeModel = employeeService.getEmployeeById(employeeDTO.getEmployeeID());
+            if(employeeModel.isPresent()){
+                EmployeeDTO dtoToUpdate = employeeMapper.toDTO(employeeModel.get());
+                dtoToUpdate.setEmployeeName(employeeDTO.getEmployeeName());
+                dtoToUpdate.setEmployeeSurname(employeeDTO.getEmployeeSurname());
+                dtoToUpdate.setEmployeeDialNumber(employeeDTO.getEmployeeDialNumber());
+                dtoToUpdate.setEmployeeEmail(employeeDTO.getEmployeeEmail());
+                dtoToUpdate.setEmployeeBirthdayDate(employeeDTO.getEmployeeBirthdayDate());
+                dtoToUpdate.setEmployeeEmploymentDate(employeeDTO.getEmployeeEmploymentDate());
+                dtoToUpdate.setEmployeeMonthlyPay(employeeDTO.getEmployeeMonthlyPay());
+                dtoToUpdate.setEmployeeCity(employeeDTO.getEmployeeCity());
+                dtoToUpdate.setEmployeeStreet(employeeDTO.getEmployeeStreet());
+                dtoToUpdate.setEmployeeBuildingNumber(employeeDTO.getEmployeeBuildingNumber());
+                dtoToUpdate.setEmployeeApartmentNumber(employeeDTO.getEmployeeApartmentNumber());
+                dtoToUpdate.setEmployeePostalCode(employeeDTO.getEmployeePostalCode());
+                employeeService.updateEmployee(employeeMapper.toModel(dtoToUpdate, true));
+                return ResponseEntity.ok().build();
             }
             else{
                 return ResponseEntity.notFound().build();
