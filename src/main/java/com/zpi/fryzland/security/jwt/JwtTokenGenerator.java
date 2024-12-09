@@ -26,7 +26,8 @@ public class JwtTokenGenerator {
     public String generateToken(Authentication authentication){
         String subjectUsername = authentication.getName();
         String subjectRole = authentication.getAuthorities().iterator().next().toString();
-        int id = subjectRole.equals("USER_EMPLOYEE") ? employeeService.getByEmployeeEmail(subjectUsername).get().getEmployeeID() : customerService.findByEmail(subjectUsername).get().getCustomerID();
+        System.out.println(subjectRole);
+        int id = subjectRole.equals("ROLE_USER_EMPLOYEE") ? employeeService.getByEmployeeEmail(subjectUsername).get().getEmployeeID() : customerService.findByEmail(subjectUsername).get().getCustomerID();
         Date currentTime = new Date(System.currentTimeMillis());
         Date tokenExpirationDate = new Date(currentTime.getTime() + tokenValidityTimeDuration);
         return Jwts.builder()

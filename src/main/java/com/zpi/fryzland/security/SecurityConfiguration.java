@@ -65,7 +65,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/crud/assignment-to-salon").hasRole("USER_ADMIN")
 
                         // Appointment making
-                        .requestMatchers(HttpMethod.GET, "/api/crud/appointment-making/availability-dates/{salonId}/{employeeId}").hasAnyRole("USER_CUSTOMER", "USER_EMPLOYEE")
+                        .requestMatchers(HttpMethod.GET, "/api/crud/appointment-making/availability-dates/**").hasAnyRole("USER_CUSTOMER", "USER_EMPLOYEE")
                         .requestMatchers(HttpMethod.PATCH, "/api/crud/appointment-making/cancel-customer/{visitId}").hasRole("USER_CUSTOMER")
                         .requestMatchers(HttpMethod.PATCH, "/api/crud/appointment-making/cancel-employee/{visitId}").hasRole("USER_EMPLOYEE")
                         .requestMatchers(HttpMethod.GET, "/api/crud/appointment-making/opening-hours/{salonId}").permitAll()

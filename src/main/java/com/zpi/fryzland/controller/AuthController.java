@@ -37,7 +37,7 @@ public class AuthController extends BaseController{
     @PostMapping("/employee/login")
     public ResponseEntity<TokenDTO> loginEmployee(@RequestBody LoginDTO loginDTO){
         try{
-            String token = authService.login(loginDTO,"USER_EMPLOYEE");
+            String token = authService.login(loginDTO,"ROLE_USER_EMPLOYEE");
             return ResponseEntity.ok(new TokenDTO(token));
         }catch(Exception e){
             e.printStackTrace();
@@ -80,7 +80,7 @@ public class AuthController extends BaseController{
     @PostMapping("/customer/login")
     public ResponseEntity<TokenDTO> loginCustomer(@RequestBody LoginDTO loginDTO){
         try{
-            String token = authService.login(loginDTO, "USER_CUSTOMER");
+            String token = authService.login(loginDTO, "ROLE_USER_CUSTOMER");
             return ResponseEntity
                     .ok(new TokenDTO(token));
         }catch(Exception e){
