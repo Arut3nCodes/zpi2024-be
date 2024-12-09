@@ -42,7 +42,7 @@ public class PasswordChangeService{
                             customerModel);
 
                     requestModel = customerRequestService.addRequest(requestModel);
-                    emailService.sendPasswordChangeRequestEmail(emailAddress, requestModel.getCustomerRequestId());
+                    emailService.sendPasswordChangeRequestEmail(emailAddress, requestModel.getCustomerRequestId(), "customer");
                     return true;
 
             }
@@ -91,7 +91,7 @@ public class PasswordChangeService{
                         employeeModel);
 
                 requestModel = employeeRequestService.addRequest(requestModel);
-                emailService.sendPasswordChangeRequestEmail(emailAddress, requestModel.getEmployeeRequestId());
+                emailService.sendPasswordChangeRequestEmail(emailAddress, requestModel.getEmployeeRequestId(), "employee");
                 return true;
 
             }
