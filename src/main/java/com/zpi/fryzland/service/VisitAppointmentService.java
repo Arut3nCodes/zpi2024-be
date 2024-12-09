@@ -254,8 +254,8 @@ public class VisitAppointmentService {
         if (optionalVisitModel.isPresent()) {
             VisitModel visitModel = optionalVisitModel.get();
             List<ServiceModel> listOfServices = serviceIncludedService.getAllServicesByVisitModel(visitModel);
-            LocalDateTime visitTime = visitModel.getVisitDate().atTime(visitModel.getVisitStartTime());
-            if (!listOfServices.isEmpty() && (visitStatus == VisitStatus.CANCELLED_CUSTOMER || visitStatus == VisitStatus.CANCELLED_EMPLOYEE) && visitModel.getVisitStatus().equals(VisitStatus.RESERVED) && LocalDateTime.now().isBefore(visitTime.minusDays(1))) {
+            LocalDate visitDate = visitModel.getVisitDate();
+            if (!listOfServices.isEmpty() && (visitStatus == VisitStatus.CANCELLED_CUSTOMER || visitStatus == VisitStatus.CANCELLED_EMPLOYEE) && visitModel.getVisitStatus().equals(VisitStatus.RESERVED) && LocalDate.now().isBefore(visitDate)) {
                 long howManyTimeSlots = listOfServices.stream()
                         .mapToLong(model -> model.getServiceSpan())
                         .sum();

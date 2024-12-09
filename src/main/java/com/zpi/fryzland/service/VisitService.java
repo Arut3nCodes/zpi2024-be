@@ -78,5 +78,4 @@ public class VisitService {
     public Integer getNumberOfVisitsByCustomerID(int customerID){
         return repository.countAllByCustomerModel_CustomerIDAndVisitStatus(customerID, VisitStatus.DONE);
     }
-
 }

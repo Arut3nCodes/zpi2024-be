@@ -78,4 +78,8 @@ public class EmployeeService {
             return false;
         }
     }
+
+    public Optional<EmployeeModel> findByEmployeeEmail(String emailAddress) {
+        return employeeRepository.findByEmployeeEmail(emailAddress);
+    }
 }
