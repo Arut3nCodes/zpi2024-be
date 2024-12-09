@@ -47,9 +47,9 @@ public class SecurityConfiguration {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((authorize) -> authorize
                         //todo: Zmienic role na admina
-                        .requestMatchers("/api/auth/employee/register").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/crud/salons").permitAll()
+//                        .requestMatchers("/api/auth/employee/register").permitAll()
+//                        .requestMatchers("/api/auth/**").permitAll()
+//                        .requestMatchers(HttpMethod.GET,"/api/crud/salons").permitAll()
                         .requestMatchers("**").permitAll()
                         .anyRequest().authenticated()
                 )
