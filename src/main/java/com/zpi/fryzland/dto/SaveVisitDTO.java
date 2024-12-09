@@ -20,4 +20,5 @@ public class SaveVisitDTO {
     private List<Integer> serviceIDList;
     private LocalDate visitDate;
     private LocalTime visitStartTime;
+    private String visitStatus;
 }

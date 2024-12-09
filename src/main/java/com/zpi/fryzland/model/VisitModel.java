@@ -1,16 +1,20 @@
 package com.zpi.fryzland.model;
 
+import com.zpi.fryzland.model.enums.VisitStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
 
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -23,11 +27,14 @@ public class VisitModel {
     @FutureOrPresent
     @Column(name="DataW", nullable = false)
     private LocalDate visitDate;
-    @FutureOrPresent
     @Column(name="GodzinaRozp", nullable = false, columnDefinition = "TIME(0)")
-    private LocalTime visitStartDate;
+    private LocalTime visitStartTime;
+    @ColumnDefault("'RESERVED'")
+    @Enumerated(EnumType.STRING)
+    @Column(name="StatusW", nullable = false)
+    private VisitStatus visitStatus;
     @ManyToOne
-    @JoinColumn(name="PracownikID")
+    @JoinColumn(name="PrzydzialDoSalonuID")
     private AssignmentToSalonModel assigmentModel;
     @ManyToOne
     @JoinColumn(name="KlientID")

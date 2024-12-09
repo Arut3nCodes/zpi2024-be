@@ -1,11 +1,13 @@
 package com.zpi.fryzland.controller;
 
+import com.zpi.fryzland.dto.RescheduleDTO;
 import com.zpi.fryzland.dto.SaveVisitDTO;
 import com.zpi.fryzland.dto.TimeSlotDTO;
 import com.zpi.fryzland.dto.VisitDTO;
 import com.zpi.fryzland.dto.employeeDisplay.SalonServiceIdsDTO;
 import com.zpi.fryzland.dto.serviceDisplay.CategoryWithServicesDTO;
 import com.zpi.fryzland.model.*;
+import com.zpi.fryzland.model.enums.VisitStatus;
 import com.zpi.fryzland.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -89,12 +91,56 @@ public class VisitAppointmentController {
         try{
             VisitModel visitModel = visitAppointmentService.makeAnAppointment(visitDTO);
             if(visitModel != null){
-                return ResponseEntity.status(201).build();
+                return ResponseEntity.status(HttpStatus.CREATED).build();
             }else{
-                return ResponseEntity.badRequest().build();
+                return ResponseEntity.status(HttpStatus.CONFLICT).build();
             }
         }catch(Exception e){
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @PatchMapping("/reschedule-visit/{visitId}")
+    public ResponseEntity<HttpStatus> rescheduleVisit(@PathVariable int visitId, @RequestBody RescheduleDTO dto) {
+        try {
+            if ((dto.getUserRole() == 'C' && dto.getUserID() != null) || dto.getUserRole() == 'E') {
+                if (visitAppointmentService.rescheduleVisit(dto.getUserRole(), dto.getUserID(), visitId, dto.getRescheduleDate(), dto.getRescheduleTime())) {
+                    return ResponseEntity.noContent().build();
+                }
+            }
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PatchMapping("/cancel-customer/{visitId}")
+    public ResponseEntity<HttpStatus> cancelCustomer(@PathVariable int visitId){
+        try {
+            //if ((dto.getUserRole() == 'C' && dto.getUserID() != null) || dto.getUserRole() == 'E') {
+                if (visitAppointmentService.cancelVisit(visitId, VisitStatus.CANCELLED_CUSTOMER)){
+                    return ResponseEntity.noContent().build();
+                }
+            //}
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @PatchMapping("/cancel-employee/{visitId}")
+    public ResponseEntity<HttpStatus> cancelEmployee(@PathVariable int visitId){
+        try {
+            //if ((dto.getUserRole() == 'C' && dto.getUserID() != null) || dto.getUserRole() == 'E') {
+            if (visitAppointmentService.cancelVisit(visitId, VisitStatus.CANCELLED_EMPLOYEE)){
+                return ResponseEntity.noContent().build();
+            }
+            //}
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }

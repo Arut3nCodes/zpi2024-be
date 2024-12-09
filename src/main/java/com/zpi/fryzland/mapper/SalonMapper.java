@@ -16,7 +16,9 @@ public class SalonMapper implements Mapper<SalonModel, SalonDTO>{
                 dto.getSalonCity(),
                 dto.getSalonStreet(),
                 dto.getSalonBuildingNumber(),
-                dto.getSalonPostalCode()
+                dto.getSalonPostalCode(),
+                dto.getLatitude(),
+                dto.getLongitude()
         );
     }
 
@@ -29,7 +31,9 @@ public class SalonMapper implements Mapper<SalonModel, SalonDTO>{
                 model.getSalonCity(),
                 model.getSalonStreet(),
                 model.getSalonBuildingNumber(),
-                model.getSalonPostalCode()
+                model.getSalonPostalCode(),
+                model.getLatitude(),
+                model.getLongitude()
         );
     }
 }

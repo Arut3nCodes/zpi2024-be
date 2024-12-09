@@ -20,7 +20,7 @@ public class RatingMapper implements Mapper<RatingModel, RatingDTO> {
                 dto.getRatingValue(),
                 dto.getRatingOpinion(),
                 employeeService.getEmployeeById(dto.getEmployeeID()).orElse(null),
-                visitService.getVisitById(dto.getEmployeeID()).orElse(null)
+                visitService.getVisitById(dto.getVisitID()).orElse(null)
         );
     }
 

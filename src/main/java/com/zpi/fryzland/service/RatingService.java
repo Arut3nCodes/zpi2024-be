@@ -1,5 +1,6 @@
 package com.zpi.fryzland.service;
 
+import com.zpi.fryzland.dto.RatingDTOWithCustomerID;
 import com.zpi.fryzland.model.RatingModel;
 import com.zpi.fryzland.repository.RatingRepository;
 import lombok.AllArgsConstructor;
@@ -22,12 +23,20 @@ public class RatingService{
         return repository.findById(id);
     }
 
+    public Optional<RatingModel> getRatingByVisitID(int id){
+        return repository.getByVisitModel_VisitID(id);
+    }
+
     public List<RatingModel> getAllRatingsByEmployeeID(int id){
         return repository.getAllByEmployeeModel_EmployeeID(id);
     }
 
     public List<RatingModel> getAllRatingsBySalonID(int id){
         return repository.getAllByVisitModel_AssigmentModel_SalonModel_SalonID(id);
+    }
+
+    public List<RatingModel> getAllRatingsByCustomerId(int id){
+        return repository.getAllByVisitModel_CustomerModel_CustomerID(id);
     }
 
     public RatingModel editRating(RatingModel ratingModel){
@@ -47,7 +56,7 @@ public class RatingService{
                 .stream()
                 .mapToDouble(ratingModel -> ratingModel.getRatingValue())
                 .average()
-                .orElseThrow(NoSuchElementException::new);
+                .orElse(0.0);
     }
 
     public float calculateAverageRatingForSalonById(int id){
@@ -55,10 +64,17 @@ public class RatingService{
                 .stream()
                 .mapToDouble(ratingModel -> ratingModel.getRatingValue())
                 .average()
-                .orElseThrow(NoSuchElementException::new);
+                .orElse(0.0);
     }
 
-
+    public List<RatingDTOWithCustomerID> getAllRatingsForSalonWithCustomer(int salonID){
+        return getAllRatingsBySalonID(salonID).stream()
+                .map(model -> new RatingDTOWithCustomerID(model))
+                .toList();
+    }
+    public List<RatingModel> getAllRatings(){
+        return repository.findAll();
+    }
 
 
 }

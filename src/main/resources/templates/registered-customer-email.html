@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Email</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #EFBF04;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #222222;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .header img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-top: 0;
+            color: #EFBF04;
+        }
+
+        p {
+            font-size: 1.2em;
+            color: #EFBF04;
+            text-align: center;
+        }
+
+        .footer {
+            background-color: #222222;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #EFBF04;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer hr {
+            border: 0;
+            border-top: 1px solid #EFBF04;
+            margin: 20px 0;
+        }
+
+        .footer p {
+            font-size: 12px;
+            color: #EFBF04;
+            margin-top: 10px;
+        }
+
+        .signature p {
+            margin: 5px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <img src="cid:logo" alt="Company Logo">
+        <img src="cid:barber_image" alt="Barber Image">
+    </div>
+
+    <h2>Witaj, <span th:text="${firstName}">Imie</span> <span th:text="${lastName}">nazwisko</span>!</h2>
+    <p>Serdecznie witamy w gronie użytkowników naszej prestiżowej sieci salonów fryzjerskich! Cieszymy się, że możemy powitać kolejnego klienta! Jako nasz nowy klient, masz teraz dostęp do wyjątkowych usług, które pozwolą Ci poczuć się jeszcze lepiej w swojej skórze.</p>
+    <p>Z niecierpliwością czekamy, aby zaoferować Ci najwyższą jakość usług oraz indywidualne podejście, które wyróżnia nas na tle innych salonów.</p>
+    <p>Zapraszamy do umówienia swojej pierwszej wizyty i odkrycia, dlaczego jesteśmy najlepszym wyborem dla najbardziej wymagających klientów!</p>
+
+    <div class="footer">
+        <hr>
+        <div class="signature">
+            <p><strong style="color: #EFBF04;">Best regards,</strong></p>
+            <p style="color: #EFBF04;" th:text="${company}">Your Company Name</p>
+            <p style="color: #EFBF04;">
+                Email: <a th:href="'mailto:' + 'fryzlandzpi@gmail.com'" style="color: #EFBF04;">fryzlandzpi@gmail.com</a>
+            </p>
+        </div>
+        <p>
+            &copy; <span th:text="${year}">2024</span> <span th:text="${company}">Your Company Name</span>. All rights reserved.
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

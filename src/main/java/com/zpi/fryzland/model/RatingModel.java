@@ -12,7 +12,7 @@ import org.hibernate.validator.constraints.Range;
 @Entity(name="Oceny")
 public class RatingModel {
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="OcenyID")
     private Integer ratingID;
     @Range(min = 1, max = 5)
