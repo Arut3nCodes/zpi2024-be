@@ -85,10 +85,11 @@ public class EmailService {
         sendEmail(to, "Witaj w gronie fryzjerów Ateliers De Style", "registered-employee-email", context);
     }
 
-    public void sendPasswordChangeRequestEmail(String to, String requestId) throws MessagingException{
+    public void sendPasswordChangeRequestEmail(String to, String requestId, String role) throws MessagingException{
         Context context = new Context();
         basicEmailContextMapping(context);
         context.setVariable("requestId", requestId);
+        context.setVariable("role", role);
         sendEmail(to, "Żądanie zmiany hasła", "password-lost-email", context);
     }
 

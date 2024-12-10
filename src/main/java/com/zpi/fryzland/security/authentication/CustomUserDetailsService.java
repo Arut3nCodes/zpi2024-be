@@ -28,8 +28,9 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsernameWithRole(String username, String role) throws UsernameNotFoundException, UnsupportedOperationException {
-        if(role.equals("USER_EMPLOYEE")){
+        if(role.equals("ROLE_USER_EMPLOYEE")){
             System.out.println(username);
+            System.out.println(role);
             EmployeeModel employeeModel = employeeRepository.findByEmployeeEmail(username)
                     .orElseThrow(() -> new UsernameNotFoundException("Pracownik nie został odnaleziony w BD"));
             return new User(username, employeeModel.getEncryptedEmployeePassword(), new ArrayList<>(Collections.singleton(new SimpleGrantedAuthority(role))));
