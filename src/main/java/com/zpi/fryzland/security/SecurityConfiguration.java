@@ -111,7 +111,7 @@ public class SecurityConfiguration {
 
                         // Customer endpoints
                         .requestMatchers(HttpMethod.POST, "/api/crud/customer/find-by-email").hasAnyRole("USER_CUSTOMER", "USER_EMPLOYEE")
-                        .requestMatchers(HttpMethod.POST, "/api/crud/customer/getAllById").hasAnyRole("USER_EMPLOYEE")
+                        .requestMatchers(HttpMethod.POST, "/api/crud/customer/getAllById").hasAnyRole("USER_EMPLOYEE", "USER_CUSTOMER")
                         .requestMatchers(HttpMethod.GET, "/api/crud/customer/{customerID}").hasAnyRole("USER_CUSTOMER", "USER_EMPLOYEE")
                         .requestMatchers(HttpMethod.POST, "/api/crud/customer").hasRole("USER_EMPLOYEE")
                         .requestMatchers(HttpMethod.PUT, "/api/crud/customer").hasAnyRole("USER_CUSTOMER", "USER_EMPLOYEE")
