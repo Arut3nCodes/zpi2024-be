@@ -82,6 +82,7 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/api/crud/service/{serviceID}").hasRole("USER_ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/crud/service").hasRole("USER_ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/crud/service").hasRole("USER_ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/crud/service/getAllById").hasAnyRole("USER_ADMIN", "USER_EMPLOYEE")
 
                         // Rating endpoints
                         .requestMatchers(HttpMethod.GET, "/api/crud/rating/allForEmployee/{employeeID}").hasRole("USER_EMPLOYEE")
@@ -97,6 +98,44 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.DELETE, "/api/crud/employee-qualification/{id}").hasRole("USER_ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/crud/employee-qualification").hasRole("USER_ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/crud/employee-qualification").hasRole("USER_ADMIN")
+
+                        // Service Category endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/crud/service-category/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/crud/service-category").hasRole("USER_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/crud/service-category").hasRole("USER_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/crud/service-category/{id}").hasRole("USER_ADMIN")
+
+                        // Customer endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/crud/customer/{customerID}").hasAnyRole("USER_CUSTOMER", "USER_ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/crud/customer").hasRole("USER_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/crud/customer").hasAnyRole("USER_CUSTOMER", "USER_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/crud/customer/{customerID}").hasRole("USER_ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/crud/customer/password-change-request").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/crud/customer/password-change/{requestID}").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/crud/customer/find-by-email").hasAnyRole("USER_CUSTOMER", "USER_EMPLOYEE")
+                        .requestMatchers(HttpMethod.POST, "/api/crud/customer/getAllById").hasAnyRole("USER_EMPLOYEE")
+
+                        // Employee endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/crud/employee/{employeeID}").hasAnyRole("USER_EMPLOYEE", "USER_ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/crud/employee").hasRole("USER_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/crud/employee").hasRole("USER_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/crud/employee/{employeeID}").hasRole("USER_ADMIN")
+                        .requestMatchers(HttpMethod.PATCH, "/api/crud/employee/password-change-request").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/crud/employee/password-change/{requestID}").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/crud/employee/find-by-email").hasAnyRole("USER_CUSTOMER", "USER_EMPLOYEE")
+                        .requestMatchers(HttpMethod.POST, "/api/crud/employee/getAllByIds").hasAnyRole("USER_CUSTOMER", "USER_EMPLOYEE")
+
+                        // Opening Hours endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/crud/opening-hours/{openingHoursID}").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/crud/opening-hours").hasRole("USER_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/crud/opening-hours").hasRole("USER_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/crud/opening-hours/{openingHoursID}").hasRole("USER_ADMIN")
+
+                        // Service Visit endpoints
+                        .requestMatchers(HttpMethod.GET, "/api/crud/service-visit/forCustomer/{id}").hasAnyRole("USER_CUSTOMER", "USER_EMPLOYEE")
+                        .requestMatchers(HttpMethod.GET, "/api/crud/service-visit/forEmployee/{id}").hasAnyRole("USER_CUSTOMER", "USER_EMPLOYEE")
+                        .requestMatchers(HttpMethod.GET, "/api/crud/service-visit/forSalon/{id}").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/crud/service-visit/forVisit/{id}").hasAnyRole("USER_CUSTOMER", "USER_EMPLOYEE")
 
                         // Miscellaneous
                         .requestMatchers("**").permitAll()
