@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Arrays;
 
 @Service
 @AllArgsConstructor
@@ -34,10 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             System.out.println(role);
             EmployeeModel employeeModel = employeeRepository.findByEmployeeEmail(username)
                     .orElseThrow(() -> new UsernameNotFoundException("Pracownik nie został odnaleziony w BD"));
-            return new User(username, employeeModel.getEncryptedEmployeePassword(), new ArrayList<>(Arrays.asList(
-                    new SimpleGrantedAuthority(role),
-                    new SimpleGrantedAuthority("ROLE_USER_ADMIN")
-            )));
+            return new User(username, employeeModel.getEncryptedEmployeePassword(), new ArrayList<>(Collections.singleton(new SimpleGrantedAuthority(role))));
         }
         else{
             CustomerModel customerModel = customerRepository.findByCustomerEmail(username)
